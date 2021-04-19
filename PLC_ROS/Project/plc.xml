@@ -1,0 +1,723 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns:ns1="http://www.plcopen.org/xml/tc6_0201" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="Unknown" productName="Unnamed" productVersion="1" creationDateTime="2021-04-13T08:37:38"/>
+  <contentHeader name="Unnamed" modificationDateTime="2021-04-19T10:13:36">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="10" y="10"/>
+      </fbd>
+      <ld>
+        <scaling x="10" y="10"/>
+      </ld>
+      <sfc>
+        <scaling x="10" y="10"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+  <types>
+    <dataTypes/>
+    <pous>
+      <pou name="program0" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="LocalVar0">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+            <variable name="LocalVar1">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+            <variable name="MotionGo0">
+              <type>
+                <derived name="MotionGo"/>
+              </type>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <LD>
+            <inVariable localId="12" height="30" width="90" negated="false">
+              <position x="210" y="20"/>
+              <connectionPointOut>
+                <relPosition x="90" y="20"/>
+              </connectionPointOut>
+              <expression>LocalVar0</expression>
+            </inVariable>
+            <outVariable localId="13" height="30" width="90" negated="false">
+              <position x="710" y="20"/>
+              <connectionPointIn>
+                <relPosition x="0" y="20"/>
+                <connection refLocalId="20" formalParameter="VALID">
+                  <position x="710" y="40"/>
+                  <position x="615" y="40"/>
+                  <position x="615" y="60"/>
+                  <position x="520" y="60"/>
+                </connection>
+              </connectionPointIn>
+              <expression>LocalVar1</expression>
+            </outVariable>
+            <block localId="20" typeName="MotionGo" instanceName="MotionGo0" height="60" width="151">
+              <position x="410" y="30"/>
+              <inputVariables>
+                <variable formalParameter="ENABLE">
+                  <connectionPointIn>
+                    <relPosition x="0" y="30"/>
+                    <connection refLocalId="12">
+                      <position x="410" y="60"/>
+                      <position x="355" y="60"/>
+                      <position x="355" y="40"/>
+                      <position x="300" y="40"/>
+                    </connection>
+                  </connectionPointIn>
+                </variable>
+              </inputVariables>
+              <inOutVariables/>
+              <outputVariables>
+                <variable formalParameter="VALID">
+                  <connectionPointOut>
+                    <relPosition x="151" y="30"/>
+                  </connectionPointOut>
+                </variable>
+                <variable formalParameter="VALID0STAGE">
+                  <connectionPointOut>
+                    <relPosition x="151" y="50"/>
+                  </connectionPointOut>
+                </variable>
+              </outputVariables>
+            </block>
+          </LD>
+        </body>
+      </pou>
+      <pou name="MotionGo" pouType="functionBlock">
+        <interface>
+          <inputVars>
+            <variable name="ENABLE">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+          </inputVars>
+          <localVars>
+            <variable name="SENT">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+          </localVars>
+          <outputVars>
+            <variable name="VALID">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+          </outputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml:p><![CDATA[{{
+  bool enable = GetFbVar(ENABLE);
+  bool sent = GetFbVar(SENT);
+  int fd = open("/tmp/MotionGo.pipe",O_RDWR | O_NONBLOCK);
+  if(enable && !sent){
+    //int fd = open("/tmp/MotionGo.pipe",O_WRONLY | O_NONBLOCK);
+    if(fd > 0){
+      char buf[1] = {'g'};
+      int ret = write(fd, buf, 1);
+      if (ret > 0){
+        SetFbVar(SENT, true);
+      }
+    }
+  }
+  else if(sent){
+    //int fd = open("/tmp/MotionGo.pipe",O_RDONLY | O_NONBLOCK);
+    char buf[1];
+    int ret = read(fd, buf, 1);
+    if (ret > 0 && buf[0] == 's'){
+      SetFbVar(VALID,true);
+    }
+  }
+  close(fd);
+}}]]></xhtml:p>
+          </ST>
+        </body>
+      </pou>
+      <pou name="MoveAbsJoint" pouType="functionBlock">
+        <interface>
+          <inputVars>
+            <variable name="ENABLE">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+          </inputVars>
+          <localVars>
+            <variable name="SENT">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+          </localVars>
+          <inputVars>
+            <variable name="AXIS1">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS2">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS3">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS4">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS5">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS6">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="OUTER_AXIS1">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="OUTER_AXIS2">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="OUTER_AXIS3">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="OUTER_AXIS4">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="OUTER_AXIS5">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="OUTER_AXIS6">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD1">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD2">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD3">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD4">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD5">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD6">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD7">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD8">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD9">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="LOAD10">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="VELOCITY">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="1.0"/>
+              </initialValue>
+            </variable>
+            <variable name="ARC">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+          </inputVars>
+          <outputVars>
+            <variable name="VALID">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+            <variable name="ERROR">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+            <variable name="ERRORID">
+              <type>
+                <SINT/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+            </variable>
+          </outputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml:p><![CDATA[{{
+  #include <string.h>
+  bool enable = GetFbVar(ENABLE);
+  bool sent = GetFbVar(SENT);
+  if(enable && !sent){
+    float axis[6];
+    axis[0] = GetFbVar(AXIS1);
+    axis[1] = GetFbVar(AXIS2);
+    axis[2] = GetFbVar(AXIS3);
+    axis[3] = GetFbVar(AXIS4);
+    axis[4] = GetFbVar(AXIS5);
+    axis[5] = GetFbVar(AXIS6);
+    
+    float outeraxis[6];
+    outeraxis[0] = GetFbVar(AXIS1);
+    outeraxis[1] = GetFbVar(AXIS2);
+    outeraxis[2] = GetFbVar(AXIS3);
+    outeraxis[3] = GetFbVar(AXIS4);
+    outeraxis[4] = GetFbVar(AXIS5);
+    outeraxis[5] = GetFbVar(AXIS6);
+    
+    float load[10];
+    load[0] = GetFbVar(LOAD1);
+    load[1] = GetFbVar(LOAD2);
+    load[2] = GetFbVar(LOAD3);
+    load[3] = GetFbVar(LOAD4);
+    load[4] = GetFbVar(LOAD5);
+    load[5] = GetFbVar(LOAD6);
+    load[6] = GetFbVar(LOAD7);
+    load[7] = GetFbVar(LOAD8);
+    load[8] = GetFbVar(LOAD9);
+    load[9] = GetFbVar(LOAD10);
+    
+    float velocity = GetFbVar(VELOCITY);
+    float arc = GetFbVar(ARC);
+    
+    char msg[500]={"MoveAbsJoint,"};
+    char word[10];
+    
+    for(int i=0; i<6; i++){
+      sprintf(word, "%.2lf", axis[i]);
+      strcat(msg,word);
+      strcat(msg,",");
+    }
+    for(int i=0; i<6; i++){
+      sprintf(word, "%.2lf", outeraxis[i]);
+      strcat(msg,word);
+      strcat(msg,",");
+    }
+    for(int i=0; i<10; i++){
+      sprintf(word, "%.2lf", load[i]);
+      strcat(msg,word);
+      strcat(msg,",");
+    }
+    sprintf(word, "%.4lf", velocity);
+    strcat(msg,word);
+    strcat(msg,",");
+    sprintf(word, "%.2lf", arc);
+    strcat(msg,word);
+    int fd = open("/tmp/MoveAbsJoint.pipe",O_WRONLY | O_NONBLOCK);
+    int ret1 = write(fd, msg, 500);
+    if (ret1 > 0){
+      SetFbVar(SENT,true);
+    }
+    
+  }
+  else if(sent){
+    //If sent, get result
+    int fd = open("/tmp/MoveAbsJoint.pipe",O_RDONLY | O_NONBLOCK);
+    char buf[3];
+    int ret2 = read(fd, buf, 3);
+    if (ret2 > 0){
+      if (buf[0] =='y'){
+        SetFbVar(VALID, true);
+        SetFbVar(ERROR, false);
+        SetFbVar(ERRORID, 0);
+      }
+      else{
+        SetFbVar(VALID, false);
+        SetFbVar(ERROR, true);
+        SetFbVar(ERRORID, buf[1]);
+      }
+    }
+    close(fd);
+  } 
+  
+  
+}}]]></xhtml:p>
+          </ST>
+        </body>
+      </pou>
+      <pou name="GetCurJoint" pouType="functionBlock">
+        <interface>
+          <inputVars>
+            <variable name="ENABLE">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+          </inputVars>
+          <localVars>
+            <variable name="SENT">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+          </localVars>
+          <outputVars>
+            <variable name="VALID">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+            <variable name="ERROR">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="False"/>
+              </initialValue>
+            </variable>
+            <variable name="ERRORID">
+              <type>
+                <SINT/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS1">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+          </outputVars>
+          <localVars>
+            <variable name="AXIS7">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+          </localVars>
+          <outputVars>
+            <variable name="AXIS2">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS3">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS4">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS5">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+            <variable name="AXIS6">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+          </outputVars>
+          <localVars>
+            <variable name="AXIS8">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="0.0"/>
+              </initialValue>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml:p><![CDATA[{{
+  #include<string.h>
+  bool enable = GetFbVar(ENABLE);
+  bool sent = GetFbVar(SENT);
+  if(enable && !sent){
+    //Send Request
+    char buf[1];
+    buf[0] = 'g';
+    int fd1 = open("/tmp/GetCurJoint.pipe",O_WRONLY | O_NONBLOCK);
+    int ret1 = write(fd1, buf, 1);
+    if(ret1 > 0){
+      SetFbVar(SENT, true);
+    }
+    close(fd1);
+  }
+  else if(sent){
+    //Get Result
+    char buf[100];
+    int fd2 = open("/tmp/GetCurJoint.pipe",O_RDONLY | O_NONBLOCK);
+    int ret2 = read(fd2, buf, 100);
+    if(ret2>0){
+      if(buf[0]=='n'){
+        //ERROR
+        SetFbVar(ERROR, true);
+        //1-digit error id
+        SetFbVar(ERRORID, buf[1] - 48);
+      }
+      else if(buf[0] == 'y'){
+        //Set Result
+        SetFbVar(VALID, true);
+        //Set Axises
+        char* p;
+        int i,j;
+        //1
+        
+        p = strchr(buf, ',');
+        i = (int)(p - buf);
+        char word[10] = {};
+        strncpy(word, buf + 1, i - 1);
+        float axis = atof(word);
+        SetFbVar(AXIS1, axis);
+        SetFbVar(AXIS7, axis);
+        //2
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i -1);
+        axis = atof(word);
+        SetFbVar(AXIS2, axis);
+        i = j;
+        //3
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(AXIS3, axis);
+        i = j;
+        //4
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(AXIS4, axis);
+        i = j;
+        //5
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(AXIS5, axis);
+        i = j;
+        //6
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(AXIS6, axis);
+        SetFbVar(AXIS8, axis);
+        
+        
+      }
+    }
+    else{
+      //Wait for result
+    }
+    close(fd2);
+  }
+  
+}}]]></xhtml:p>
+          </ST>
+        </body>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations>
+      <configuration name="Config0">
+        <resource name="Res0">
+          <task name="task0" priority="0" interval="T#50ms">
+            <pouInstance name="instance0" typeName="program0"/>
+          </task>
+        </resource>
+      </configuration>
+    </configurations>
+  </instances>
+</project>

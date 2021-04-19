@@ -29,6 +29,12 @@
 #ifndef _IEC_STD_LIB_H
 #define _IEC_STD_LIB_H
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdbool.h>
+#include <time.h>
 
 #include <limits.h>
 #include <float.h>
