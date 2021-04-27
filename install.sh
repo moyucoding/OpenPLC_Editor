@@ -17,11 +17,11 @@ sudo apt-get -y -qq install libxml2-dev libxslt1-dev
 sudo apt-get -y -qq install python2-dev
 sudo apt-get -y -qq install python2.7-dev
 #Get pip manually
-curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 sudo python2.7 get-pip.py
 #Fix for Debian Buster
-sudo apt-get -y -qq install libpng libfreetype6-dev
-pip2 install future zeroconf==0.19.1 numpy==1.16.5 matplotlib==2.0.2 lxml pyro sslpsk -i https://mirrors.aliyun.com/pypi/simple
+sudo apt-get -y -qq install libpng libpng-dev libfreetype6-dev
+pip2 install future zeroconf==0.19.1 numpy==1.16.5 matplotlib==2.0.2 lxml pyro sslpsk
 echo ""
 echo "[COMPILING MATIEC]"
 cd matiec

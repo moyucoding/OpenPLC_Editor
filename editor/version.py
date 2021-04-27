@@ -71,7 +71,7 @@ def GetAboutDialogInfo():
     import wx
     info = wx.AboutDialogInfo()
 
-    info.Name = "OpenPLC Editor"
+    info.Name = "JihuaPLC Editor"
     info.Version = app_version
 
     info.Copyright = ""

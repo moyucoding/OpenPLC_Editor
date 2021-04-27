@@ -1,0 +1,1602 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns:ns1="http://www.plcopen.org/xml/tc6_0201" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="JihuaLab" productName="Robots Function Blocks" productVersion="1.0" creationDateTime="2020-02-21T09:44:11"/>
+  <contentHeader name="Robots Function Blocks" author="Zebang Zhong" modificationDateTime="2020-04-25T15:42:12">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="0" y="0"/>
+      </fbd>
+      <ld>
+        <scaling x="0" y="0"/>
+      </ld>
+      <sfc>
+        <scaling x="0" y="0"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+  <types>
+    <dataTypes/>
+    <pous>
+    <pou name="MotionGo" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[TRUE to enable the block]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if robot is ready]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block makes the robot ready.]]></xhtml:p>
+      </documentation>
+    </pou>
+    
+    <pou name="GetCurJoint" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Shows JOINT 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Shows JOINT 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Shows JOINT 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Shows JOINT 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Shows JOINT 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Shows JOINT 6]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block gets joints of the robot.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="MoveAbsJoint" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set JOINT 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set JOINT 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set JOINT 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set JOINT 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set JOINT 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set JOINT 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD7">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 7]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD8">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 8]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD9">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 9]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD10">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 10]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VELOCITY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set VELOCITY: [0.001,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ZONE">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ZONE: [0,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block makes the robot move joints.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="MoveJoint" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_X">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set x of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_Y">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set y of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_Z">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set z of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RX">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rx of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ry of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RZ">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rz of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD7">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 7]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD8">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 8]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD9">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 9]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD10">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 10]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VELOCITY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set VELOCITY: [0.001,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ZONE">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ZONE: [0,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block makes the robot move to a point.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="MoveLinear" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_X">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set x of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_Y">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set y of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_Z">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set z of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RX">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rx of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ry of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RZ">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rz of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD7">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 7]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD8">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 8]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD9">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 9]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD10">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 10]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VELOCITY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set VELOCITY: [0.001,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ZONE">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ZONE: [0,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block makes the robot move linear to a point.]]></xhtml:p>
+      </documentation>
+    </pou>
+    
+    <pou name="MoveCircle" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_X">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set x of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_Y">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set y of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_Z">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set z of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RX">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rx of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ry of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="POINT_RZ">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rz of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VIA_POINT_X">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set x of the via_point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VIA_POINT_Y">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set y of the via_point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VIA_POINT_Z">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set z of the _viapoint]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VIA_POINT_RX">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rx of the via_point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VIA_POINT_RY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ry of the via_point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VIA_POINT_RZ">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set rz of the point]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUTER_JOINT6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set OUTER_JOINT 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD7">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 7]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD8">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 8]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD9">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 9]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD10">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 10]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VELOCITY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set VELOCITY: [0.001,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ZONE">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set ZONE: [0,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block makes the robot move circle to a point.]]></xhtml:p>
+      </documentation>
+    </pou>
+  
+    <pou name="MoveJogJoint" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT_INDEX">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set joint of the robot]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD7">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 7]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD8">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 8]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD9">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 9]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD10">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 10]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VELOCITY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set SPEED [0.001,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block is for jogging a joint.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="MoveJogLinear" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOG_TYPE">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set type of movement]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD7">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 7]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD8">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 8]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD9">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 9]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD10">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 10]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VELOCITY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set SPEED [0.001,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block is for jogging the robot turning around.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="MoveJogRotation" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOG_TYPE">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set type of movement]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD1">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 1]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD2">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 2]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD3">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 3]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD4">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 4]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD5">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 5]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD6">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 6]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD7">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 7]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD8">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 8]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD9">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 9]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="LOAD10">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set LOAD 10]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="VELOCITY">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Set SPEED [0.001,1]]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if operaton is valid]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERROR">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if error occurs]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="ERRORID">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the error code]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block is for jogging the robot rotating.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    </pous>    
+  </types>
+  <instances>
+    <configurations/>
+  </instances>
+</project>

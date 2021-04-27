@@ -43,6 +43,7 @@
 
 (* Not in the standard, but useful nonetheless. *)
 {#include "sema.txt" }
+{#include "robots_function_blocks.txt" }
 
 
 {enable code generation}

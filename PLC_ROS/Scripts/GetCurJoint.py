@@ -9,7 +9,7 @@ from ros_motion.msg import MotionGetCurJoint
 class GetCurJointClient(Node):
 
     def __init__(self):
-        super().__init__('minimal_subscriber')
+        super().__init__('getcurjoint_subscriber')
         self.subscription = self.create_subscription(
             MotionGetCurJoint, 'getcurjoint',
             self.listener_callback,

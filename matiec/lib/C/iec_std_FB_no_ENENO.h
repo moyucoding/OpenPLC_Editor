@@ -31,6 +31,9 @@
 #ifndef _IEC_STD_FB_H
 #define _IEC_STD_FB_H
 
+#define GetFbVar(var,...) __GET_VAR(data__->var,__VA_ARGS__)
+#define SetFbVar(var,val,...) __SET_VAR(data__->,var,__VA_ARGS__,val)
+
 
 #include "accessor.h"
 
@@ -493,6 +496,254 @@ typedef struct {
 } SEMA;
 
 
+
+
+// FUNCTION_BLOCK MOTIONGO
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  // FB private variables - TEMP, private and located variables
+  __DECLARE_VAR(BOOL,SENT)
+} MOTIONGO;
+
+
+// FUNCTION_BLOCK MOVEABSJOINT
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(REAL,JOINT1)
+  __DECLARE_VAR(REAL,JOINT2)
+  __DECLARE_VAR(REAL,JOINT3)
+  __DECLARE_VAR(REAL,JOINT4)
+  __DECLARE_VAR(REAL,JOINT5)
+  __DECLARE_VAR(REAL,JOINT6)
+  __DECLARE_VAR(REAL,OUTER_JOINT1)
+  __DECLARE_VAR(REAL,OUTER_JOINT2)
+  __DECLARE_VAR(REAL,OUTER_JOINT3)
+  __DECLARE_VAR(REAL,OUTER_JOINT4)
+  __DECLARE_VAR(REAL,OUTER_JOINT5)
+  __DECLARE_VAR(REAL,OUTER_JOINT6)
+  __DECLARE_VAR(REAL,LOAD1)
+  __DECLARE_VAR(REAL,LOAD2)
+  __DECLARE_VAR(REAL,LOAD3)
+  __DECLARE_VAR(REAL,LOAD4)
+  __DECLARE_VAR(REAL,LOAD5)
+  __DECLARE_VAR(REAL,LOAD6)
+  __DECLARE_VAR(REAL,LOAD7)
+  __DECLARE_VAR(REAL,LOAD8)
+  __DECLARE_VAR(REAL,LOAD9)
+  __DECLARE_VAR(REAL,LOAD10)
+  __DECLARE_VAR(REAL,VELOCITY)
+  __DECLARE_VAR(REAL,ZONE)
+  // FB private variables - TEMP, private and located variables
+  __DECLARE_VAR(BOOL,SENT)
+} MOVEABSJOINT;
+
+
+// FUNCTION_BLOCK GETCURJOINT
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(REAL,JOINT1)
+  __DECLARE_VAR(REAL,JOINT2)
+  __DECLARE_VAR(REAL,JOINT3)
+  __DECLARE_VAR(REAL,JOINT4)
+  __DECLARE_VAR(REAL,JOINT5)
+  __DECLARE_VAR(REAL,JOINT6)
+  // FB private variables - TEMP, private and located variables
+  __DECLARE_VAR(BOOL,SENT)
+} GETCURJOINT;
+
+
+// FUNCTION_BLOCK MOVEJOINT
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(REAL,POINT_X)
+  __DECLARE_VAR(REAL,POINT_Y)
+  __DECLARE_VAR(REAL,POINT_Z)
+  __DECLARE_VAR(REAL,POINT_RX)
+  __DECLARE_VAR(REAL,POINT_RY)
+  __DECLARE_VAR(REAL,POINT_RZ)
+  __DECLARE_VAR(REAL,OUTER_JOINT1)
+  __DECLARE_VAR(REAL,OUTER_JOINT2)
+  __DECLARE_VAR(REAL,OUTER_JOINT3)
+  __DECLARE_VAR(REAL,OUTER_JOINT4)
+  __DECLARE_VAR(REAL,OUTER_JOINT5)
+  __DECLARE_VAR(REAL,OUTER_JOINT6)
+  __DECLARE_VAR(REAL,LOAD1)
+  __DECLARE_VAR(REAL,LOAD2)
+  __DECLARE_VAR(REAL,LOAD3)
+  __DECLARE_VAR(REAL,LOAD4)
+  __DECLARE_VAR(REAL,LOAD5)
+  __DECLARE_VAR(REAL,LOAD6)
+  __DECLARE_VAR(REAL,LOAD7)
+  __DECLARE_VAR(REAL,LOAD8)
+  __DECLARE_VAR(REAL,LOAD9)
+  __DECLARE_VAR(REAL,LOAD10)
+  __DECLARE_VAR(REAL,VELOCITY)
+  __DECLARE_VAR(REAL,ZONE)
+} MOVEJOINT;
+
+
+// FUNCTION_BLOCK MOVELINEAR
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(REAL,POINT_X)
+  __DECLARE_VAR(REAL,POINT_Y)
+  __DECLARE_VAR(REAL,POINT_Z)
+  __DECLARE_VAR(REAL,POINT_RX)
+  __DECLARE_VAR(REAL,POINT_RY)
+  __DECLARE_VAR(REAL,POINT_RZ)
+  __DECLARE_VAR(REAL,OUTER_JOINT1)
+  __DECLARE_VAR(REAL,OUTER_JOINT2)
+  __DECLARE_VAR(REAL,OUTER_JOINT3)
+  __DECLARE_VAR(REAL,OUTER_JOINT4)
+  __DECLARE_VAR(REAL,OUTER_JOINT5)
+  __DECLARE_VAR(REAL,OUTER_JOINT6)
+  __DECLARE_VAR(REAL,LOAD1)
+  __DECLARE_VAR(REAL,LOAD2)
+  __DECLARE_VAR(REAL,LOAD3)
+  __DECLARE_VAR(REAL,LOAD4)
+  __DECLARE_VAR(REAL,LOAD5)
+  __DECLARE_VAR(REAL,LOAD6)
+  __DECLARE_VAR(REAL,LOAD7)
+  __DECLARE_VAR(REAL,LOAD8)
+  __DECLARE_VAR(REAL,LOAD9)
+  __DECLARE_VAR(REAL,LOAD10)
+  __DECLARE_VAR(REAL,VELOCITY)
+  __DECLARE_VAR(REAL,ZONE)
+} MOVELINEAR;
+
+
+// FUNCTION_BLOCK MOVECIRCLE
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(REAL,POINT_X)
+  __DECLARE_VAR(REAL,POINT_Y)
+  __DECLARE_VAR(REAL,POINT_Z)
+  __DECLARE_VAR(REAL,POINT_RX)
+  __DECLARE_VAR(REAL,POINT_RY)
+  __DECLARE_VAR(REAL,POINT_RZ)
+  __DECLARE_VAR(REAL,VIA_POINT_X)
+  __DECLARE_VAR(REAL,VIA_POINT_Y)
+  __DECLARE_VAR(REAL,VIA_POINT_Z)
+  __DECLARE_VAR(REAL,VIA_POINT_RX)
+  __DECLARE_VAR(REAL,VIA_POINT_RY)
+  __DECLARE_VAR(REAL,VIA_POINT_RZ)
+  __DECLARE_VAR(REAL,OUTER_JOINT1)
+  __DECLARE_VAR(REAL,OUTER_JOINT2)
+  __DECLARE_VAR(REAL,OUTER_JOINT3)
+  __DECLARE_VAR(REAL,OUTER_JOINT4)
+  __DECLARE_VAR(REAL,OUTER_JOINT5)
+  __DECLARE_VAR(REAL,OUTER_JOINT6)
+  __DECLARE_VAR(REAL,LOAD1)
+  __DECLARE_VAR(REAL,LOAD2)
+  __DECLARE_VAR(REAL,LOAD3)
+  __DECLARE_VAR(REAL,LOAD4)
+  __DECLARE_VAR(REAL,LOAD5)
+  __DECLARE_VAR(REAL,LOAD6)
+  __DECLARE_VAR(REAL,LOAD7)
+  __DECLARE_VAR(REAL,LOAD8)
+  __DECLARE_VAR(REAL,LOAD9)
+  __DECLARE_VAR(REAL,LOAD10)
+  __DECLARE_VAR(REAL,VELOCITY)
+  __DECLARE_VAR(REAL,ZONE)
+} MOVECIRCLE;
+
+
+// FUNCTION_BLOCK MOVEJOGJOINT
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(SINT,JOINT_INDEX)
+  __DECLARE_VAR(REAL,LOAD1)
+  __DECLARE_VAR(REAL,LOAD2)
+  __DECLARE_VAR(REAL,LOAD3)
+  __DECLARE_VAR(REAL,LOAD4)
+  __DECLARE_VAR(REAL,LOAD5)
+  __DECLARE_VAR(REAL,LOAD6)
+  __DECLARE_VAR(REAL,LOAD7)
+  __DECLARE_VAR(REAL,LOAD8)
+  __DECLARE_VAR(REAL,LOAD9)
+  __DECLARE_VAR(REAL,LOAD10)
+  __DECLARE_VAR(REAL,SPEED)
+} MOVEJOGJOINT;
+
+
+// FUNCTION_BLOCK MOVEJOGLINEAR
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(SINT,JOG_TYPE)
+  __DECLARE_VAR(REAL,LOAD1)
+  __DECLARE_VAR(REAL,LOAD2)
+  __DECLARE_VAR(REAL,LOAD3)
+  __DECLARE_VAR(REAL,LOAD4)
+  __DECLARE_VAR(REAL,LOAD5)
+  __DECLARE_VAR(REAL,LOAD6)
+  __DECLARE_VAR(REAL,LOAD7)
+  __DECLARE_VAR(REAL,LOAD8)
+  __DECLARE_VAR(REAL,LOAD9)
+  __DECLARE_VAR(REAL,LOAD10)
+  __DECLARE_VAR(REAL,SPEED)
+} MOVEJOGLINEAR;
+
+
+// FUNCTION_BLOCK MOVEJOGROTATION
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,ENABLE)
+  __DECLARE_VAR(BOOL,VALID)
+  __DECLARE_VAR(BOOL,ERROR)
+  __DECLARE_VAR(SINT,ERRORID)
+  __DECLARE_VAR(SINT,JOG_TYPE)
+  __DECLARE_VAR(REAL,LOAD1)
+  __DECLARE_VAR(REAL,LOAD2)
+  __DECLARE_VAR(REAL,LOAD3)
+  __DECLARE_VAR(REAL,LOAD4)
+  __DECLARE_VAR(REAL,LOAD5)
+  __DECLARE_VAR(REAL,LOAD6)
+  __DECLARE_VAR(REAL,LOAD7)
+  __DECLARE_VAR(REAL,LOAD8)
+  __DECLARE_VAR(REAL,LOAD9)
+  __DECLARE_VAR(REAL,LOAD10)
+  __DECLARE_VAR(REAL,SPEED)
+} MOVEJOGROTATION;
 
 
 static void R_TRIG_init__(R_TRIG *data__, BOOL retain) {
@@ -1155,11 +1406,11 @@ static void TP_init__(TP *data__, BOOL retain) {
 static void TP_body__(TP *data__) {
 // Initialise TEMP variables
 
-#define GetFbVar(var,...) __GET_VAR(data__->var,__VA_ARGS__)
-#define SetFbVar(var,val,...) __SET_VAR(data__->,var,__VA_ARGS__,val)
+
+
 __SET_VAR(data__->,CURRENT_TIME,,__CURRENT_TIME)
-#undef GetFbVar
-#undef SetFbVar
+
+
 ;
 if ((((__GET_VAR(data__->STATE,) == 0) && !(__GET_VAR(data__->PREV_IN,))) && __GET_VAR(data__->IN,))) {
   __SET_VAR(data__->,STATE,,1);
@@ -1205,11 +1456,11 @@ static void TON_init__(TON *data__, BOOL retain) {
 static void TON_body__(TON *data__) {
 // Initialise TEMP variables
 
-#define GetFbVar(var,...) __GET_VAR(data__->var,__VA_ARGS__)
-#define SetFbVar(var,val,...) __SET_VAR(data__->,var,__VA_ARGS__,val)
+
+
 __SET_VAR(data__->,CURRENT_TIME,,__CURRENT_TIME)
-#undef GetFbVar
-#undef SetFbVar
+
+
 ;
 if ((((__GET_VAR(data__->STATE,) == 0) && !(__GET_VAR(data__->PREV_IN,))) && __GET_VAR(data__->IN,))) {
   __SET_VAR(data__->,STATE,,1);
@@ -1257,11 +1508,11 @@ static void TOF_init__(TOF *data__, BOOL retain) {
 static void TOF_body__(TOF *data__) {
 // Initialise TEMP variables
 
-#define GetFbVar(var,...) __GET_VAR(data__->var,__VA_ARGS__)
-#define SetFbVar(var,val,...) __SET_VAR(data__->,var,__VA_ARGS__,val)
+
+
 __SET_VAR(data__->,CURRENT_TIME,,__CURRENT_TIME)
-#undef GetFbVar
-#undef SetFbVar
+
+
 ;
 if ((((__GET_VAR(data__->STATE,) == 0) && __GET_VAR(data__->PREV_IN,)) && !(__GET_VAR(data__->IN,)))) {
   __SET_VAR(data__->,STATE,,1);
@@ -1485,11 +1736,11 @@ static void RTC_init__(RTC *data__, BOOL retain) {
 static void RTC_body__(RTC *data__) {
 // Initialise TEMP variables
 
-#define GetFbVar(var,...) __GET_VAR(data__->var,__VA_ARGS__)
-#define SetFbVar(var,val,...) __SET_VAR(data__->,var,__VA_ARGS__,val)
+
+
 __SET_VAR(data__->,CURRENT_TIME,,__CURRENT_TIME)
-#undef GetFbVar
-#undef SetFbVar
+
+
 ;
 if (__GET_VAR(data__->IN,)) {
   if (!(__GET_VAR(data__->PREV_IN,))) {
@@ -1535,14 +1786,584 @@ __end:
 
 
 
+static void TEST_init__(TEST *data__, BOOL retain) {
+  __INIT_VAR(data__->I0,0,retain)
+  __INIT_VAR(data__->ACTIVE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->OUT,0,retain)
+}
+// Code part
+static void TEST_body__(TEST *data__) {
+  // Code
+  if (__GET_VAR(data__->ACTIVE,)) {
+    __SET_VAR(data__->,OUT,,__GET_VAR(data__->I0,)+10);
+  }
+  goto __end;
+  __end:
+    return;
+} // TEST_body__() 
+
+
+static woid MOTIONGO_init__(MOTIONGO *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->SENT,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+}
+
+// Code part
+static woid MOTIONGO_body__(MOTIONGO *data__) {
+  
+  
+  
+  // Control execution
+  bool enable = GetFbVar(ENABLE);
+  bool sent = GetFbVar(SENT);
+  int fd = open("/tmp/MotionGo.pipe",O_RDWR | O_NONBLOCK);
+  if(enable && !sent){
+    //int fd = open("/tmp/MotionGo.pipe",O_WRONLY | O_NONBLOCK);
+    if(fd > 0){
+      char buf[1] = {'g'};
+      int ret = write(fd, buf, 1);
+      if (ret > 0){
+        SetFbVar(SENT, true);
+      }
+    }
+  }
+  else if(sent){
+    //int fd = open("/tmp/MotionGo.pipe",O_RDONLY | O_NONBLOCK);
+    char buf[1];
+    int ret = read(fd, buf, 1);
+    if (ret > 0 && buf[0] == 's'){
+      SetFbVar(VALID,true);
+    }
+  }
+  close(fd);
+  
+  
+  goto __end;
+__end:
+  return;
+} // MOTIONGO_body__() 
+
+
+static woid MOVEABSJOINT_init__(MOVEABSJOINT *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->SENT,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT1,0.0,retain)
+  __INIT_VAR(data__->JOINT2,0.0,retain)
+  __INIT_VAR(data__->JOINT3,0.0,retain)
+  __INIT_VAR(data__->JOINT4,0.0,retain)
+  __INIT_VAR(data__->JOINT5,0.0,retain)
+  __INIT_VAR(data__->JOINT6,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT1,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT2,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT3,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT4,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT5,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT6,0.0,retain)
+  __INIT_VAR(data__->LOAD1,0.0,retain)
+  __INIT_VAR(data__->LOAD2,0.0,retain)
+  __INIT_VAR(data__->LOAD3,0.0,retain)
+  __INIT_VAR(data__->LOAD4,0.0,retain)
+  __INIT_VAR(data__->LOAD5,0.0,retain)
+  __INIT_VAR(data__->LOAD6,0.0,retain)
+  __INIT_VAR(data__->LOAD7,0.0,retain)
+  __INIT_VAR(data__->LOAD8,0.0,retain)
+  __INIT_VAR(data__->LOAD9,0.0,retain)
+  __INIT_VAR(data__->LOAD10,0.0,retain)
+  __INIT_VAR(data__->VELOCITY,1.0,retain)
+  __INIT_VAR(data__->ZONE,0.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+}
+
+// Code part
+static woid MOVEABSJOINT_body__(MOVEABSJOINT *data__) {
+  
+  
+  
+  // Control execution
+  bool enable = GetFbVar(ENABLE);
+  bool sent = GetFbVar(SENT);
+  if(enable && !sent){
+    float axis[6];
+    axis[0] = GetFbVar(JOINT1);
+    axis[1] = GetFbVar(JOINT2);
+    axis[2] = GetFbVar(JOINT3);
+    axis[3] = GetFbVar(JOINT4);
+    axis[4] = GetFbVar(JOINT5);
+    axis[5] = GetFbVar(JOINT6);
+    
+    float outeraxis[6];
+    outeraxis[0] = GetFbVar(JOINT1);
+    outeraxis[1] = GetFbVar(JOINT2);
+    outeraxis[2] = GetFbVar(JOINT3);
+    outeraxis[3] = GetFbVar(JOINT4);
+    outeraxis[4] = GetFbVar(JOINT5);
+    outeraxis[5] = GetFbVar(JOINT6);
+    
+    float load[10];
+    load[0] = GetFbVar(LOAD1);
+    load[1] = GetFbVar(LOAD2);
+    load[2] = GetFbVar(LOAD3);
+    load[3] = GetFbVar(LOAD4);
+    load[4] = GetFbVar(LOAD5);
+    load[5] = GetFbVar(LOAD6);
+    load[6] = GetFbVar(LOAD7);
+    load[7] = GetFbVar(LOAD8);
+    load[8] = GetFbVar(LOAD9);
+    load[9] = GetFbVar(LOAD10);
+    
+    float velocity = GetFbVar(VELOCITY);
+    float zone = GetFbVar(ZONE);
+    
+    char msg[500]={"MoveAbsJoint,"};
+    char word[10];
+    
+    for(int i=0; i<6; i++){
+      sprintf(word, "%.2lf", axis[i]);
+      strcat(msg,word);
+      strcat(msg,",");
+    }
+    for(int i=0; i<6; i++){
+      sprintf(word, "%.2lf", outeraxis[i]);
+      strcat(msg,word);
+      strcat(msg,",");
+    }
+    for(int i=0; i<10; i++){
+      sprintf(word, "%.2lf", load[i]);
+      strcat(msg,word);
+      strcat(msg,",");
+    }
+    sprintf(word, "%.4lf", velocity);
+    strcat(msg,word);
+    strcat(msg,",");
+    sprintf(word, "%.2lf", zone);
+    strcat(msg,word);
+    strcat(msg,",");
+    int fd = open("/tmp/MoveAbsJoint.pipe",O_WRONLY | O_NONBLOCK);
+    int ret1 = write(fd, msg, 500);
+    if (ret1 > 0){
+      SetFbVar(SENT,true);
+    }
+    
+  }
+  else if(sent){
+    //If sent, get result
+    int fd = open("/tmp/MoveAbsJoint.pipe",O_RDONLY | O_NONBLOCK);
+    char buf[3];
+    int ret2 = read(fd, buf, 3);
+    if (ret2 > 0){
+      if (buf[0] =='y'){
+        SetFbVar(VALID, true);
+        SetFbVar(ERROR, false);
+        SetFbVar(ERRORID, 0);
+      }
+      else{
+        SetFbVar(VALID, false);
+        SetFbVar(ERROR, true);
+        SetFbVar(ERRORID, buf[1]);
+      }
+    }
+    close(fd);
+  } 
+  
+  
+  goto __end;
+
+__end:
+  return;
+} // MOVEABSJOINT_body__() 
+
+
+static woid GETCURJOINT_init__(GETCURJOINT *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->SENT,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+  __INIT_VAR(data__->JOINT1,0.0,retain)
+  __INIT_VAR(data__->JOINT7,0.0,retain)
+  __INIT_VAR(data__->JOINT2,0.0,retain)
+  __INIT_VAR(data__->JOINT3,0.0,retain)
+  __INIT_VAR(data__->JOINT4,0.0,retain)
+  __INIT_VAR(data__->JOINT5,0.0,retain)
+  __INIT_VAR(data__->JOINT6,0.0,retain)
+  __INIT_VAR(data__->JOINT8,0.0,retain)
+}
+
+// Code part
+static woid GETCURJOINT_body__(GETCURJOINT *data__) {
+  
+  
+  
+  // Control execution
+  bool enable = GetFbVar(ENABLE);
+  bool sent = GetFbVar(SENT);
+  if(enable && !sent){
+    //Send Request
+    char buf[1];
+    buf[0] = 'g';
+    int fd1 = open("/tmp/GetCurJoint.pipe",O_WRONLY | O_NONBLOCK);
+    int ret1 = write(fd1, buf, 1);
+    if(ret1 > 0){
+      SetFbVar(SENT, true);
+    }
+    close(fd1);
+  }
+  else if(sent){
+    //Get Result
+    char buf[100];
+    int fd2 = open("/tmp/GetCurJoint.pipe",O_RDONLY | O_NONBLOCK);
+    int ret2 = read(fd2, buf, 100);
+    if(ret2>0){
+      if(buf[0]=='n'){
+        //ERROR
+        SetFbVar(ERROR, true);
+        //1-digit error id
+        SetFbVar(ERRORID, buf[1] - 48);
+      }
+      else if(buf[0] == 'y'){
+        //Set Result
+        SetFbVar(VALID, true);
+        //Set Axises
+        char* p;
+        int i,j;
+        //1
+        
+        p = strchr(buf, ',');
+        i = (int)(p - buf);
+        char word[10] = {};
+        strncpy(word, buf + 1, i - 1);
+        float axis = atof(word);
+        SetFbVar(JOINT1, axis);
+        //2
+        memset(word,0,10);
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i -1);
+        axis = atof(word);
+        SetFbVar(JOINT2, axis);
+        i = j;
+        //3
+        memset(word,0,10);
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(JOINT3, axis);
+        i = j;
+        //4
+        memset(word,0,10);
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(JOINT4, axis);
+        i = j;
+        //5
+        memset(word,0,10);
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(JOINT5, axis);
+        i = j;
+        //6
+        memset(word,0,10);
+        p = strchr(buf + i + 1, ',');
+        j = (int)(p - buf);
+        strncpy(word, buf + i + 1, j - i - 1);
+        axis = atof(word);
+        SetFbVar(JOINT6, axis);
+
+      }
+    }
+    else{
+      //Wait for result
+    }
+    close(fd2);
+  }
+  
+  
+  goto __end;
+
+__end:
+  return;
+} // GETCURJOINT_body__() 
+
+
+static woid MOVEJOINT_init__(MOVEJOINT *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->POINT_X,0.0,retain)
+  __INIT_VAR(data__->POINT_Y,0.0,retain)
+  __INIT_VAR(data__->POINT_Z,0.0,retain)
+  __INIT_VAR(data__->POINT_RX,0.0,retain)
+  __INIT_VAR(data__->POINT_RY,0.0,retain)
+  __INIT_VAR(data__->POINT_RZ,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT1,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT2,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT3,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT4,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT5,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT6,0.0,retain)
+  __INIT_VAR(data__->LOAD1,0.0,retain)
+  __INIT_VAR(data__->LOAD2,0.0,retain)
+  __INIT_VAR(data__->LOAD3,0.0,retain)
+  __INIT_VAR(data__->LOAD4,0.0,retain)
+  __INIT_VAR(data__->LOAD5,0.0,retain)
+  __INIT_VAR(data__->LOAD6,0.0,retain)
+  __INIT_VAR(data__->LOAD7,0.0,retain)
+  __INIT_VAR(data__->LOAD8,0.0,retain)
+  __INIT_VAR(data__->LOAD9,0.0,retain)
+  __INIT_VAR(data__->LOAD10,0.0,retain)
+  __INIT_VAR(data__->VELOCITY,1.0,retain)
+  __INIT_VAR(data__->ZONE,0.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+}
+
+// Code part
+static woid MOVEJOINT_body__(MOVEJOINT *data__) {
+  
+  
+  
+  // Control execution
+  SetFbVar(VALID, true);
+  SetFbVar(ERROR, false);
+  SetFbVar(ERRORID, 0);
+
+  
+  
+  goto __end;
+
+__end:
+  return;
+} // MOVEJOINT_body__() 
+
+
+static woid MOVELINEAR_init__(MOVELINEAR *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->POINT_X,0.0,retain)
+  __INIT_VAR(data__->POINT_Y,0.0,retain)
+  __INIT_VAR(data__->POINT_Z,0.0,retain)
+  __INIT_VAR(data__->POINT_RX,0.0,retain)
+  __INIT_VAR(data__->POINT_RY,0.0,retain)
+  __INIT_VAR(data__->POINT_RZ,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT1,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT2,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT3,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT4,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT5,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT6,0.0,retain)
+  __INIT_VAR(data__->LOAD1,0.0,retain)
+  __INIT_VAR(data__->LOAD2,0.0,retain)
+  __INIT_VAR(data__->LOAD3,0.0,retain)
+  __INIT_VAR(data__->LOAD4,0.0,retain)
+  __INIT_VAR(data__->LOAD5,0.0,retain)
+  __INIT_VAR(data__->LOAD6,0.0,retain)
+  __INIT_VAR(data__->LOAD7,0.0,retain)
+  __INIT_VAR(data__->LOAD8,0.0,retain)
+  __INIT_VAR(data__->LOAD9,0.0,retain)
+  __INIT_VAR(data__->LOAD10,0.0,retain)
+  __INIT_VAR(data__->VELOCITY,1.0,retain)
+  __INIT_VAR(data__->ZONE,0.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+}
+
+// Code part
+static woid MOVELINEAR_body__(MOVELINEAR *data__) {
+  
+  
+  
+  // Control execution
+  SetFbVar(VALID, true);
+  SetFbVar(ERROR, false);
+  SetFbVar(ERRORID, 0);
+
+  
+  
+  goto __end;
+
+__end:
+  return;
+} // MOVELINEAR_body__() 
+
+
+static woid MOVECIRCLE_init__(MOVECIRCLE *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->POINT_X,0.0,retain)
+  __INIT_VAR(data__->POINT_Y,0.0,retain)
+  __INIT_VAR(data__->POINT_Z,0.0,retain)
+  __INIT_VAR(data__->POINT_RX,0.0,retain)
+  __INIT_VAR(data__->POINT_RY,0.0,retain)
+  __INIT_VAR(data__->POINT_RZ,0.0,retain)
+  __INIT_VAR(data__->VIA_POINT_X,0.0,retain)
+  __INIT_VAR(data__->VIA_POINT_Y,0.0,retain)
+  __INIT_VAR(data__->VIA_POINT_Z,0.0,retain)
+  __INIT_VAR(data__->VIA_POINT_RX,0.0,retain)
+  __INIT_VAR(data__->VIA_POINT_RY,0.0,retain)
+  __INIT_VAR(data__->VIA_POINT_RZ,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT1,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT2,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT3,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT4,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT5,0.0,retain)
+  __INIT_VAR(data__->OUTER_JOINT6,0.0,retain)
+  __INIT_VAR(data__->LOAD1,0.0,retain)
+  __INIT_VAR(data__->LOAD2,0.0,retain)
+  __INIT_VAR(data__->LOAD3,0.0,retain)
+  __INIT_VAR(data__->LOAD4,0.0,retain)
+  __INIT_VAR(data__->LOAD5,0.0,retain)
+  __INIT_VAR(data__->LOAD6,0.0,retain)
+  __INIT_VAR(data__->LOAD7,0.0,retain)
+  __INIT_VAR(data__->LOAD8,0.0,retain)
+  __INIT_VAR(data__->LOAD9,0.0,retain)
+  __INIT_VAR(data__->LOAD10,0.0,retain)
+  __INIT_VAR(data__->VELOCITY,1.0,retain)
+  __INIT_VAR(data__->ZONE,0.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+}
+
+// Code part
+static woid MOVECIRCLE_body__(MOVECIRCLE *data__) {
+  
+  
+  
+  // Control execution
+  SetFbVar(VALID, true);
+  SetFbVar(ERROR, false);
+  SetFbVar(ERRORID, 0);
+
+  
+  
+  goto __end;
+
+__end:
+  return;
+} // MOVECIRCLE_body__() 
+
+
+static woid MOVEJOGJOINTjoint_init__(MOVEJOGJOINT *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT_INDEX,0,retain)
+  __INIT_VAR(data__->LOAD1,0.0,retain)
+  __INIT_VAR(data__->LOAD2,0.0,retain)
+  __INIT_VAR(data__->LOAD3,0.0,retain)
+  __INIT_VAR(data__->LOAD4,0.0,retain)
+  __INIT_VAR(data__->LOAD5,0.0,retain)
+  __INIT_VAR(data__->LOAD6,0.0,retain)
+  __INIT_VAR(data__->LOAD7,0.0,retain)
+  __INIT_VAR(data__->LOAD8,0.0,retain)
+  __INIT_VAR(data__->LOAD9,0.0,retain)
+  __INIT_VAR(data__->LOAD10,0.0,retain)
+  __INIT_VAR(data__->SPEED,0.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+}
+
+// Code part
+static woid MOVEEJOGJOINT_body__(MOVEJOGJOINT *data__) {
+  
+  
+  
+  // Control execution
+  SetFbVar(VALID, true);
+  SetFbVar(ERROR, false);
+  SetFbVar(ERRORID, 0);
+
+  
+  
+  goto __end;
+
+__end:
+  return;
+} // MOVEJOGJOINT_body__() 
+
+
+static woid MOVEJOGLINEAR_init__(MOVEJOGLINEAR *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOG_TYPE,0,retain)
+  __INIT_VAR(data__->LOAD1,0.0,retain)
+  __INIT_VAR(data__->LOAD2,0.0,retain)
+  __INIT_VAR(data__->LOAD3,0.0,retain)
+  __INIT_VAR(data__->LOAD4,0.0,retain)
+  __INIT_VAR(data__->LOAD5,0.0,retain)
+  __INIT_VAR(data__->LOAD6,0.0,retain)
+  __INIT_VAR(data__->LOAD7,0.0,retain)
+  __INIT_VAR(data__->LOAD8,0.0,retain)
+  __INIT_VAR(data__->LOAD9,0.0,retain)
+  __INIT_VAR(data__->LOAD10,0.0,retain)
+  __INIT_VAR(data__->SPEED,0.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+}
+
+// Code part
+static woid MOVEJOGLINEAR_body__(MOVEJOGLINEAR *data__) {
+  
+  
+  
+  // Control execution
+  SetFbVar(VALID, true);
+  SetFbVar(ERROR, false);
+  SetFbVar(ERRORID, 0);
+
+  
+  
+  goto __end;
+
+__end:
+  return;
+} // MOVEJOGLINEAR_body__() 
+
+
+static woid MOVEJOGROTATION_init__(MOVEJOGROTATION *data__, BOOL retain) {
+  __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOG_TYPE,0,retain)
+  __INIT_VAR(data__->LOAD1,0.0,retain)
+  __INIT_VAR(data__->LOAD2,0.0,retain)
+  __INIT_VAR(data__->LOAD3,0.0,retain)
+  __INIT_VAR(data__->LOAD4,0.0,retain)
+  __INIT_VAR(data__->LOAD5,0.0,retain)
+  __INIT_VAR(data__->LOAD6,0.0,retain)
+  __INIT_VAR(data__->LOAD7,0.0,retain)
+  __INIT_VAR(data__->LOAD8,0.0,retain)
+  __INIT_VAR(data__->LOAD9,0.0,retain)
+  __INIT_VAR(data__->LOAD10,0.0,retain)
+  __INIT_VAR(data__->SPEED,0.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERROR,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->ERRORID,0,retain)
+}
+
+// Code part
+static woid MOVEJOGROTATION_body__(MOVEJOGROTATION *data__) {
+  
+  
+  
+  // Control execution
+  SetFbVar(VALID, true);
+  SetFbVar(ERROR, false);
+  SetFbVar(ERRORID, 0);
+
+  
+  goto __end;
+
+__end:
+  return;
+} // MOVEJOGROTATION_body__() 
 
 
 
-
-
-
-
-
-
+#undef GetFbVar
+#undef SetFbVar
 
 #endif //_IEC_STD_FB_H
