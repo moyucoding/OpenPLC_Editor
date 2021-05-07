@@ -9,7 +9,7 @@ from ros_motion.msg import MotionGetCurJoint
 class GetCurJointClient(Node):
 
     def __init__(self):
-        super().__init__('getcurjoint_subscriber')
+        super().__init__('minimal_subscriber')
         self.subscription = self.create_subscription(
             MotionGetCurJoint, 'getcurjoint',
             self.listener_callback,
@@ -53,7 +53,7 @@ class GetCurJointHandler():
                     print(self.ros_handler._result)
                     #Get data from ROS topic
                     #Valid
-                    joints = [float(x) for x in self.ros_handler._result]
+                    joints = [round(float(x),2) for x in self.ros_handler._result]
                     str_joints = [str(x) for x in joints]
                     validcode = 'y' + ','.join(str_joints) + ','
                     validcode += ' '*(100-len(validcode))
