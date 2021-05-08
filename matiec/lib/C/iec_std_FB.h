@@ -2198,7 +2198,7 @@ static void MOVEABSJOINT_body__(MOVEABSJOINT *data__) {
       strcat(buf,word);
       strcat(buf,";");
       
-      int ret = write(fd, buf, 300);
+      int ret = write(fd, buf, 400);
       if (ret > 0){
         SetFbVar(SENT, true);
       }
@@ -2272,7 +2272,7 @@ static void MOVEJOINT_body__(MOVEJOINT *data__) {
       strcat(buf,word);
       strcat(buf,";");
       
-      int ret = write(fd, buf, 300);
+      int ret = write(fd, buf, 400);
       if (ret > 0){
         SetFbVar(SENT, true);
       }
@@ -2346,7 +2346,7 @@ static void MOVELINEAR_body__(MOVELINEAR *data__) {
       strcat(buf,word);
       strcat(buf,";");
       
-      int ret = write(fd, buf, 300);
+      int ret = write(fd, buf, 400);
       if (ret > 0){
         SetFbVar(SENT, true);
       }
@@ -2430,7 +2430,7 @@ static void MOVECIRCLE_body__(MOVECIRCLE *data__) {
       strcat(buf,word);
       strcat(buf,";");
       
-      int ret = write(fd, buf, 300);
+      int ret = write(fd, buf, 500);
       if (ret > 0){
         SetFbVar(SENT, true);
       }

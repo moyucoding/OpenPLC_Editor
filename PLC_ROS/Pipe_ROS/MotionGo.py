@@ -10,8 +10,8 @@ from ros_motion.action import MotionGo
 class MotionGoActionClient(Node):
 
     def __init__(self):
-        super().__init__('motiongo_action_client')
-        self._action_client = ActionClient(self, MotionGo, 'motiongo')
+        super().__init__('Motion/Go')
+        self._action_client = ActionClient(self, MotionGo, 'Motion/Go')
         self._action_result = 0
 
     def send_goal(self):
@@ -63,7 +63,7 @@ class MotionGoHandler():
         while True:
             try:
                 data = os.read(fd, 10)
-                if data.decode('utf-8').split(',')[0] == 'MotionGo':
+                if data.decode('utf-8').split(';')[0] == 'MotionGo':
                     print('[Get]  MotionGo request.')
                     rclpy.init()
                     self.ros_handler = MotionGoActionClient()
