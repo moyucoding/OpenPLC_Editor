@@ -2398,7 +2398,7 @@ static void MOVECIRCLE_body__(MOVECIRCLE *data__) {
   int fd = open("/tmp/MoveCircle.pipe",O_RDWR | O_NONBLOCK);
   if(enable && !sent){
     if(fd > 0){
-      char buf[400] = {"MoveCircle;"};
+      char buf[500] = {"MoveCircle;"};
       //TOPOINT
       char *word = GetFbVar(TOPOINT).body;
       strcat(buf,word);

@@ -1,3 +1,13 @@
+(*
+ * This is my custom blocks implementation
+ *
+ *
+ * Test Block
+ * -----------
+ *)
+(* This block should get an integer at I0, sum
+   10 to it and then output the sum at OUT
+*)
 
 
 FUNCTION_BLOCK MOTIONGO

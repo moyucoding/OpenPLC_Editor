@@ -1807,7 +1807,7 @@ static void MOVEABSJOINT_body__(MOVEABSJOINT *data__) {
       strcat(buf,word);
       strcat(buf,";");
       
-      int ret = write(fd, buf, 300);
+      int ret = write(fd, buf, 400);
       if (ret > 0){
         SetFbVar(SENT, true);
       }
@@ -1879,7 +1879,7 @@ static void MOVEJOINT_body__(MOVEJOINT *data__) {
       strcat(buf,word);
       strcat(buf,";");
       
-      int ret = write(fd, buf, 300);
+      int ret = write(fd, buf, 400);
       if (ret > 0){
         SetFbVar(SENT, true);
       }
@@ -2001,7 +2001,7 @@ static void MOVECIRCLE_body__(MOVECIRCLE *data__) {
   int fd = open("/tmp/MoveCircle.pipe",O_RDWR | O_NONBLOCK);
   if(enable && !sent){
     if(fd > 0){
-      char buf[400] = {"MoveCircle;"};
+      char buf[500] = {"MoveCircle;"};
       //TOPOINT
       char *word = GetFbVar(TOPOINT).body;
       strcat(buf,word);
