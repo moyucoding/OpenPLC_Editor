@@ -1,0 +1,532 @@
+
+
+FUNCTION_BLOCK MOTIONGO
+  VAR_INPUT
+    ENABLE : BOOL := False;
+  END_VAR
+  VAR
+    SENT : BOOL := False;
+  END_VAR
+  VAR_OUTPUT
+    VALID : BOOL := False;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    bool sent = GetFbVar(SENT);
+    int fd = open("/tmp/MotionGo.pipe",O_RDWR | O_NONBLOCK);
+    if(enable && !sent){
+      if(fd > 0){
+        char buf[10] = {"MotionGo;"};
+        int ret = write(fd, buf, 10);
+        if (ret > 0){
+          SetFbVar(SENT, true);
+        }
+      }
+    }
+    else if(sent){
+      char buf[1];
+      int ret = read(fd, buf, 1);
+      if (ret > 0 && buf[0] == '1'){
+        SetFbVar(VALID,true);
+      }
+    }
+    close(fd);
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK GETCURJOINT
+  VAR_INPUT
+    ENABLE : BOOL := false;
+  END_VAR
+  VAR_OUTPUT
+    VALID : BOOL := false;
+    ERROR : BOOL := false;
+    ERRORCODE : SINT := 0;
+    JOINT : STRING := '0,0,0,0,0,0';
+    EXTJOINT : STRING := '0,0,0,0,0,0';
+  END_VAR
+  VAR
+    SENT : BOOL := false;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    bool sent = GetFbVar(SENT);
+    int fd = open("/tmp/GetCurJoint.pipe",O_RDWR | O_NONBLOCK);
+    if(enable && !sent){
+      if(fd > 0){
+        char buf[20] = {"GetCurJoint;"};
+        int ret = write(fd, buf, 20);
+        if (ret > 0){
+          SetFbVar(SENT, true);
+        }
+      }
+    }
+    else if(sent){
+      char buf[200];
+      int ret = read(fd, buf, 200);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          //Set Result
+          SetFbVar(VALID, true);
+          char *p1, *p2;
+          
+          //Get joint          
+          p1 = strchr(buf, ';');
+          char word[100] = {};
+          strncpy(word, buf + 1, p1 - buf - 1);
+          char *p_word = word;
+          //Set result
+          IEC_STRING joint_str = {strlen(word), ""};
+          strcpy(joint_str.body, p_word);
+          SetFbVar(JOINT, joint_str);
+          
+          //Get extjoint
+          p2 = strchr(p1 + 1, ';');
+          memset(word, 0, sizeof(word));
+          strncpy(word, p1 +  1, p2 - p1 - 1);
+          p_word = word;
+          //Set result
+          IEC_STRING extjoint_str = {strlen(word), ""};
+          strcpy(extjoint_str.body, p_word);
+          SetFbVar(EXTJOINT, extjoint_str);
+        }
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MOVEABSJOINT
+  VAR_INPUT
+    ENABLE : BOOL := false;
+    JOINT : STRING := '0,0,0,0,0,0';
+    EXTJOINT : STRING := '0,0,0,0,0,0';
+    LOAD : STRING := '0,0,0,0,0,0';
+    SPEED : REAL := 1.0;
+    ZONE : REAL := 0.0;
+  END_VAR
+  VAR_OUTPUT
+    VALID : BOOL := false;
+    ERROR : BOOL := false;
+    ERRORCODE : SINT := 0;
+  END_VAR
+  VAR
+    SENT : BOOL := false;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    bool sent = GetFbVar(SENT);
+    int fd = open("/tmp/MoveAbsJoint.pipe",O_RDWR | O_NONBLOCK);
+    if(enable && !sent){
+      if(fd > 0){
+        char buf[400] = {"MoveAbsJoint;"};
+        //JOINT
+        char *word = GetFbVar(JOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //EXTJOINT
+        word = GetFbVar(EXTJOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //LOAD
+        word = GetFbVar(LOAD).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //SPEED
+        float speed = GetFbVar(SPEED);
+        sprintf(word, "%.2lf", speed);
+        strcat(buf,word);
+        strcat(buf,";");
+        //ZONE
+        float zone = GetFbVar(ZONE);
+        sprintf(word, "%.2lf", zone);
+        strcat(buf,word);
+        strcat(buf,";");
+        
+        int ret = write(fd, buf, 400);
+        if (ret > 0){
+          SetFbVar(SENT, true);
+        }
+      }
+    }
+    else if(sent){
+      char buf[10];
+      int ret = read(fd, buf, 10);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MOVEJOINT
+  VAR_INPUT
+    ENABLE : BOOL := false;
+    TOPOINT : STRING := '0,0,0,0,0,0';
+    EXTJOINT : STRING := '0,0,0,0,0,0';
+    LOAD : STRING := '0,0,0,0,0,0';
+    SPEED : REAL := 1.0;
+    ZONE : REAL := 0.0;
+  END_VAR
+  VAR_OUTPUT
+    VALID : BOOL := false;
+    ERROR : BOOL := false;
+    ERRORCODE : SINT := 0;
+  END_VAR
+  VAR
+    SENT : BOOL := false;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    bool sent = GetFbVar(SENT);
+    int fd = open("/tmp/MoveJoint.pipe",O_RDWR | O_NONBLOCK);
+    if(enable && !sent){
+      if(fd > 0){
+        char buf[400] = {"MoveJoint;"};
+        //TOPOINT
+        char *word = GetFbVar(TOPOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //EXTJOINT
+        word = GetFbVar(EXTJOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //LOAD
+        word = GetFbVar(LOAD).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //SPEED
+        float speed = GetFbVar(SPEED);
+        sprintf(word, "%.2lf", speed);
+        strcat(buf,word);
+        strcat(buf,";");
+        //ZONE
+        float zone = GetFbVar(ZONE);
+        sprintf(word, "%.2lf", zone);
+        strcat(buf,word);
+        strcat(buf,";");
+        
+        int ret = write(fd, buf, 400);
+        if (ret > 0){
+          SetFbVar(SENT, true);
+        }
+      }
+    }
+    else if(sent){
+      char buf[10];
+      int ret = read(fd, buf, 10);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MOVELINEAR
+  VAR_INPUT
+    ENABLE : BOOL := false;
+    TOPOINT : STRING := '0,0,0,0,0,0';
+    EXTJOINT : STRING := '0,0,0,0,0,0';
+    LOAD : STRING := '0,0,0,0,0,0';
+    SPEED : REAL := 1.0;
+    ZONE : REAL := 0.0;
+  END_VAR
+  VAR_OUTPUT
+    VALID : BOOL := false;
+    ERROR : BOOL := false;
+    ERRORCODE : SINT := 0;
+  END_VAR
+  VAR
+    SENT : BOOL := false;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    bool sent = GetFbVar(SENT);
+    int fd = open("/tmp/MoveLinear.pipe",O_RDWR | O_NONBLOCK);
+    if(enable && !sent){
+      if(fd > 0){
+        char buf[400] = {"MoveLinear;"};
+        //TOPOINT
+        char *word = GetFbVar(TOPOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //EXTJOINT
+        word = GetFbVar(EXTJOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //LOAD
+        word = GetFbVar(LOAD).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //SPEED
+        float speed = GetFbVar(SPEED);
+        sprintf(word, "%.2lf", speed);
+        strcat(buf,word);
+        strcat(buf,";");
+        //ZONE
+        float zone = GetFbVar(ZONE);
+        sprintf(word, "%.2lf", zone);
+        strcat(buf,word);
+        strcat(buf,";");
+        
+        int ret = write(fd, buf, 400);
+        if (ret > 0){
+          SetFbVar(SENT, true);
+        }
+      }
+    }
+    else if(sent){
+      char buf[10];
+      int ret = read(fd, buf, 10);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MOVECIRCLE
+  VAR_INPUT
+    ENABLE : BOOL := false;
+    TOPOINT : STRING := '0,0,0,0,0,0';
+    EXTJOINT : STRING := '0,0,0,0,0,0';
+    VIAPOINT : STRING := '0,0,0,0,0,0';
+    VIAEXTJOINT : STRING := '0,0,0,0,0,0';
+    LOAD : STRING := '0,0,0,0,0,0';
+    SPEED : REAL := 1.0;
+    ZONE : REAL := 0.0;
+  END_VAR
+  VAR_OUTPUT
+    VALID : BOOL := false;
+    ERROR : BOOL := false;
+    ERRORCODE : SINT := 0;
+  END_VAR
+  VAR
+    SENT : BOOL := false;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    bool sent = GetFbVar(SENT);
+    int fd = open("/tmp/MoveCircle.pipe",O_RDWR | O_NONBLOCK);
+    if(enable && !sent){
+      if(fd > 0){
+        char buf[500] = {"MoveCircle;"};
+        //POINT
+        char *word = GetFbVar(TOPOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //EXTJOINT
+        word = GetFbVar(EXTJOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //VIAPOINT
+        word = GetFbVar(VIAPOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //VIAEXTJOINT
+        word = GetFbVar(VIAEXTJOINT).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //LOAD
+        word = GetFbVar(LOAD).body;
+        strcat(buf,word);
+        strcat(buf,";");
+        //SPEED
+        float speed = GetFbVar(SPEED);
+        sprintf(word, "%.2lf", speed);
+        strcat(buf,word);
+        strcat(buf,";");
+        //ZONE
+        float zone = GetFbVar(ZONE);
+        sprintf(word, "%.2lf", zone);
+        strcat(buf,word);
+        strcat(buf,";");
+        
+        int ret = write(fd, buf, 500);
+        if (ret > 0){
+          SetFbVar(SENT, true);
+        }
+      }
+    }
+    else if(sent){
+      char buf[10];
+      int ret = read(fd, buf, 10);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MOVEJOGJOINT
+  VAR_INPUT
+    ENABLE : BOOL := false;
+    INDEX : SINT := 0;
+    LOAD : STRING := '0,0,0,0,0,0';
+    SPEED : REAL := 1.0;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    int fd = open("/tmp/MoveJogJoint.pipe",O_RDWR | O_NONBLOCK);
+    if(enable){
+      if(fd > 0){
+      char buf[200] = {"MoveJogJoint;"};
+      char word[10] = {0};
+      
+      //INDEX
+      int index = GetFbVar(INDEX);
+      sprintf(word, "%d", index);
+      strcat(buf,word);
+      strcat(buf,";");
+      
+      //LOAD
+      char *p = GetFbVar(LOAD).body;
+      strcat(buf,p);
+      strcat(buf,";");
+      
+      //SPEED
+      float speed = GetFbVar(SPEED);
+      sprintf(word, "%.2lf", speed);
+      strcat(buf,word);
+      strcat(buf,";");
+      int ret = write(fd, buf, 200);   
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MOVEJOGLINEAR
+  VAR_INPUT
+    ENABLE : BOOL := false;
+    JOGTYPE : SINT := 0;
+    LOAD : STRING := '0,0,0,0,0,0';
+    SPEED : REAL := 1.0;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    int fd = open("/tmp/MoveJogLinear.pipe",O_RDWR | O_NONBLOCK);
+    if(enable){
+      if(fd > 0){
+      char buf[200] = {"MoveJogLinear;"};
+      char word[10] = {0};
+
+      //TYPE
+      int jogtype = GetFbVar(JOGTYPE);
+      sprintf(word, "%d", jogtype);
+      strcat(buf,word);
+      strcat(buf,";");
+      
+      //LOAD
+      char *p = GetFbVar(LOAD).body;
+      strcat(buf,p);
+      strcat(buf,";");
+      
+      //SPEED
+      float speed = GetFbVar(SPEED);
+      sprintf(word, "%.2lf", speed);
+      strcat(buf,word);
+      strcat(buf,";");
+      int ret = write(fd, buf, 200);   
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK MOVEJOGROTATION
+  VAR_INPUT
+    ENABLE : BOOL := false;
+    JOGTYPE : SINT := 0;
+    LOAD : STRING := '0,0,0,0,0,0';
+    SPEED : REAL := 1.0;
+  END_VAR
+
+  {{
+    bool enable = GetFbVar(ENABLE);
+    int fd = open("/tmp/MoveJogRotation.pipe",O_RDWR | O_NONBLOCK);
+    if(enable){
+      if(fd > 0){
+      char buf[200] = {"MoveJogRotation;"};
+      char word[10] = {0};
+      
+      //TYPE
+      int jogtype = GetFbVar(JOGTYPE);
+      sprintf(word, "%d", jogtype);
+      strcat(buf,word);
+      strcat(buf,";");
+      
+      //LOAD
+      char *p = GetFbVar(LOAD).body;
+      strcat(buf,p);
+      strcat(buf,";");
+      
+      //SPEED
+      float speed = GetFbVar(SPEED);
+      sprintf(word, "%.2lf", speed);
+      strcat(buf,word);
+      strcat(buf,";");
+      int ret = write(fd, buf, 200);   
+      }
+    }
+    close(fd);
+
+  }}
+END_FUNCTION_BLOCK
