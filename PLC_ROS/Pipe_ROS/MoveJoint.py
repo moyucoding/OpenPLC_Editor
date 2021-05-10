@@ -4,12 +4,12 @@ import time
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
-from ros_motion.action import MotionMoveJoint
+from motion.action import MotionMoveJoint
 
 class MoveJointActionClient(Node):
 
     def __init__(self):
-        super().__init__('Motion/MoveJoint')
+        super().__init__('MotionMoveJoint')
         
         self._action_client = ActionClient(self, MotionMoveJoint, 'Motion/MoveJoint')
         self._ret = 0
@@ -68,9 +68,20 @@ class MoveJointHandler():
                         #Create a goal
                         goal = MotionMoveJoint.Goal()
                         goal.id = 1
+                        goal.user = [0.0] * 7
+                        goal.tool = [0.0] * 7
                         goal.topoint = [float(x) for x in msg[0].split(',')[:]]
-                        goal.extjoint = [float(x) for x in msg[1].split(',')[:]]
-                        goal.load = [float(x) for x in msg[2].split(',')[:]]
+
+                        extjoint = [float(x) for x in msg[1].split(',')[:]]
+                        goal.extjoint = [0.0] * 8
+                        for i in range(len(extjoint)):
+                            goal.extjoint[i] = extjoint[i]
+
+                        load = [float(x) for x in msg[2].split(',')[:]]
+                        goal.load = [0.0] * 10
+                        for i in range(len(load)):
+                            goal.load[i] = load[i]
+
                         goal.speed = float(msg[3])
                         goal.zone = float(msg[4])
                         
@@ -81,7 +92,7 @@ class MoveJointHandler():
                         
                         print('[Get]  MoveJoint result.')
                         print('[Sent]  MoveJoint result.')
-                        if self.ros_handler._action_result:
+                        if self.ros_handler._ret:
                             validcode = 'y' + ' '*9
                             os.write(fd,validcode.encode('utf-8'))
                         else:

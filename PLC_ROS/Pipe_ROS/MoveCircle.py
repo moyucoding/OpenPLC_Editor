@@ -4,12 +4,12 @@ import time
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
-from ros_motion.action import Motionyyyy
+from motion.action import MotionMoveCircle
 
 class MoveCircleActionClient(Node):
 
     def __init__(self):
-        super().__init__('Motion/MoveCircle')
+        super().__init__('MotionMoveCircle')
         
         self._action_client = ActionClient(self, MotionMoveCircle, 'Motion/MoveCircle')
         self._ret = 0
@@ -68,12 +68,27 @@ class MoveCircleHandler():
                         #Create a goal
                         goal = MotionMoveCircle.Goal()
                         goal.id = 1
+                        goal.user = [0.0] * 7
+                        goal.tool = [0.0] * 7
                         goal.topoint = [float(x) for x in msg[0].split(',')[:]]
-                        goal.extjoint = [float(x) for x in msg[1].split(',')[:]]
+
+                        extjoint = [float(x) for x in msg[1].split(',')[:]]
+                        goal.extjoint = [0.0] * 8
+                        for i in range(len(extjoint)):
+                            goal.extjoint[i] = extjoint[i]
+
                         goal.viapoint = [float(x) for x in msg[2].split(',')[:]]
-                        goal.viaextjoint = [float(x) for x in msg[3].split(',')[:]]
                         
-                        goal.load = [float(x) for x in msg[4].split(',')[:]]
+                        viaextjoint = [float(x) for x in msg[3].split(',')[:]]
+                        goal.viaextjoint = [0.0] * 8
+                        for i in range(len(viaextjoint)):
+                            goal.viaextjoint[i] = viaextjoint[i]
+                        
+                        load = [float(x) for x in msg[4].split(',')[:]]
+                        goal.load = [0.0] * 10
+                        for i in range(len(load)):
+                            goal.load[i] = load[i]
+
                         goal.speed = float(msg[5])
                         goal.zone = float(msg[6])
                         
@@ -84,7 +99,7 @@ class MoveCircleHandler():
                         
                         print('[Get]  MoveCircle result.')
                         print('[Sent]  MoveCircle result.')
-                        if self.ros_handler._action_result:
+                        if self.ros_handler._ret:
                             validcode = 'y' + ' '*9
                             os.write(fd,validcode.encode('utf-8'))
                         else:

@@ -4,12 +4,12 @@ import time
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
-from ros_motion.action import MotionMoveAbsJoint
+from motion.action import MotionMoveAbsJoint
 
 class MoveAbsJointActionClient(Node):
 
     def __init__(self):
-        super().__init__('Motion/MoveAbsJoint')
+        super().__init__('MotionMoveAbsJoint')
         
         self._action_client = ActionClient(self, MotionMoveAbsJoint, 'Motion/MoveAbsJoint')
         self._ret = 0
@@ -68,9 +68,21 @@ class MoveAbsJointHandler():
                         #Create a goal
                         goal = MotionMoveAbsJoint.Goal()
                         goal.id = 1
-                        goal.joint = [float(x) for x in msg[0].split(',')[:]]
-                        goal.extjoint = [float(x) for x in msg[1].split(',')[:]]
-                        goal.load = [float(x) for x in msg[2].split(',')[:]]
+                        joint = [float(x) for x in msg[0].split(',')[:]]
+                        goal.joint = [0.0] * 8
+                        for i in range(len(joint)):
+                            goal.joint[i] = joint[i]
+
+                        extjoint = [float(x) for x in msg[1].split(',')[:]]
+                        goal.extjoint = [0.0] * 8
+                        for i in range(len(extjoint)):
+                            goal.extjoint[i] = extjoint[i]
+
+                        load = [float(x) for x in msg[2].split(',')[:]]
+                        goal.joint = [0.0] * 10
+                        for i in range(len(load)):
+                            goal.load[i] = load[i]
+
                         goal.speed = float(msg[3])
                         goal.zone = float(msg[4])
                         
@@ -81,7 +93,7 @@ class MoveAbsJointHandler():
                         
                         print('[Get]  MoveAbsJoint result.')
                         print('[Sent]  MoveAbsJoint result.')
-                        if self.ros_handler._action_result:
+                        if self.ros_handler._ret:
                             validcode = 'y' + ' '*9
                             os.write(fd,validcode.encode('utf-8'))
                         else:

@@ -3,15 +3,15 @@ import time
 import rclpy
 from rclpy.node import Node
 
-from ros_motion.msg import MotionGetCurJoint
+from motion.msg import MotionCurJoint
 
 
 class GetCurJointClient(Node):
 
     def __init__(self):
-        super().__init__('Motion/GetCurJoint')
+        super().__init__('MotionGetCurJoint')
         self.subscription = self.create_subscription(
-            MotionGetCurJoint, 'Motion/GetCurJoint',
+            MotionGetCurJoint, 'MotionCurJoint',
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
@@ -46,7 +46,8 @@ class GetCurJointHandler():
                         #ROS
                         rclpy.init()
                         self.ros_handler = GetCurJointClient()
-                        rclpy.spin_once(self.ros_handler)                    
+                        rclpy.spin_once(self.ros_handler)   
+                        rclpy.shutdown()                 
                         print('[Get]  GetCurJoint result.')
 
                         #Get data from ROS topic

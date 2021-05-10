@@ -4,15 +4,15 @@ import time
 import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
-from ros_motion.action import MotionGo
+from motion.action import MotionGo
 
 
 class MotionGoActionClient(Node):
 
     def __init__(self):
-        super().__init__('Motion/Go')
+        super().__init__('MotionGo')
         self._action_client = ActionClient(self, MotionGo, 'Motion/Go')
-        self._action_result = 0
+        self._ret = 0
 
     def send_goal(self):
         goal_msg = MotionGo.Goal()
@@ -36,7 +36,7 @@ class MotionGoActionClient(Node):
     def get_result_callback(self, future):
         result = future.result().result
         self.get_logger().info('Result: {0}'.format(result.ret))
-        self._action_result = result.ret
+        self._ret = result.ret
         rclpy.shutdown()
 
     def feedback_callback(self, feedback_msg):
@@ -70,7 +70,7 @@ class MotionGoHandler():
                     self.ros_handler.send_goal()
                     rclpy.spin(self.ros_handler)
                     print('[Get]  MotionGo result.')
-                    if(self.ros_handler._action_result == 1):
+                    if(self.ros_handler._ret == 1):
                         os.write(fd, '1'.encode('utf-8'))
                         print('[Sent]  MotionGo result.')
             except:
