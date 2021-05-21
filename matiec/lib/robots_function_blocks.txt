@@ -540,3 +540,171 @@ FUNCTION_BLOCK MOVEJOGROTATION
 
   }}
 END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK JOGJOINTSELECTION
+  VAR_INPUT
+    JOINT1_F : BOOL := False;
+    JOINT1_R : BOOL := False;
+    JOINT2_F : BOOL := False;
+    JOINT2_R : BOOL := False;
+    JOINT3_F : BOOL := False;
+    JOINT3_R : BOOL := False;
+    JOINT4_F : BOOL := False;
+    JOINT4_R : BOOL := False;
+    JOINT5_F : BOOL := False;
+    JOINT5_R : BOOL := False;
+    JOINT6_F : BOOL := False;
+    JOINT6_R : BOOL := False;
+    IN_SPEED : REAL := 0.5;
+  END_VAR
+  VAR_OUTPUT
+    INDEX : SINT := 0;
+    OUT_SPEED : REAL := 0.0;
+  END_VAR
+
+  {{
+    int count = 0;
+    int joint = 0;
+    bool forward = true;
+    
+    if(GetFbVar(JOINT1_F)){
+      count++;
+      joint = 1;
+      forward = true;
+    }
+    if(GetFbVar(JOINT1_R)){
+      count++;
+      joint = 1;
+      forward = false;
+    }
+    if(GetFbVar(JOINT2_F)){
+      count++;
+      joint = 2;
+      forward = true;
+    }
+    if(GetFbVar(JOINT2_R)){
+      count++;
+      joint = 2;
+      forward = false;
+    }
+    if(GetFbVar(JOINT3_F)){
+      count++;
+      joint = 3;
+      forward = true;
+    }
+    if(GetFbVar(JOINT3_R)){
+      count++;
+      joint = 3;
+      forward = false;
+    }
+    if(GetFbVar(JOINT4_F)){
+      count++;
+      joint = 4;
+      forward = true;
+    }
+    if(GetFbVar(JOINT4_R)){
+      count++;
+      joint = 4;
+      forward = false;
+    }
+    if(GetFbVar(JOINT5_F)){
+      count++;
+      joint = 5;
+      forward = true;
+    }
+    if(GetFbVar(JOINT5_R)){
+      count++;
+      joint = 5;
+      forward = false;
+    }
+    if(GetFbVar(JOINT6_F)){
+      count++;
+      joint = 6;
+      forward = true;
+    }
+    if(GetFbVar(JOINT6_R)){
+      count++;
+      joint = 6;
+      forward = false;
+    }
+    if(count == 1){
+      SetFbVar(INDEX, joint);
+      if(forward){
+        SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
+      }
+      else{
+        SetFbVar(OUT_SPEED, 0 - GetFbVar(IN_SPEED));
+      }
+    }
+    else{
+      SetFbVar(INDEX, 0);
+      SetFbVar(OUT_SPEED, 0);
+    }
+  }}
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK JOGTYPESELECTION
+  VAR_INPUT
+    X_F : BOOL := False;
+    X_R : BOOL := False;
+    Y_F : BOOL := False;
+    Y_R : BOOL := False;
+    Z_F : BOOL := False;
+    Z_R : BOOL := False;
+    IN_SPEED : REAL := 0.5;
+  END_VAR
+  VAR_OUTPUT
+    JOGTYPE : SINT := 0;
+    OUT_SPEED : REAL := 0.0;
+  END_VAR
+
+  {{
+    int count = 0;
+    int JOGTYPE = 0;
+    bool forward = true;
+    
+    if(GetFbVar(X_F)){
+      count++;
+      JOGTYPE = 1;
+      forward = true;
+    }
+    if(GetFbVar(X_R)){
+      count++;
+      JOGTYPE = 1;
+      forward = false;
+    }
+    if(GetFbVar(Y_F)){
+      count++;
+      JOGTYPE = 2;
+      forward = true;
+    }
+    if(GetFbVar(Y_R)){
+      count++;
+      JOGTYPE = 2;
+      forward = false;
+    }
+    if(GetFbVar(Z_F)){
+      count++;
+      JOGTYPE = 3;
+      forward = true;
+    }
+    if(GetFbVar(Z_R)){
+      count++;
+      JOGTYPE = 3;
+      forward = false;
+    }
+    if(count == 1){
+      SetFbVar(JOGTYPE, JOGTYPE);
+      if(forward){
+        SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
+      }
+      else{
+        SetFbVar(OUT_SPEED, 0 - GetFbVar(IN_SPEED));
+      }
+    }
+    else{
+      SetFbVar(JOGTYPE, 0);
+      SetFbVar(OUT_SPEED, 0);
+    }
+  }}
+END_FUNCTION_BLOCK

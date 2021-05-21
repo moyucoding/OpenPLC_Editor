@@ -638,6 +638,231 @@
       </documentation>
     </pou>
 
+    <pou name="JogJointSelection" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="JOINT1_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 1 moving forward]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT1_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 1 moving reversed]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT2_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 2 moving forward]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT2_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 2 moving reversed]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT3_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 3 moving forward]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT3_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 3 moving reversed]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT4_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 4 moving forward]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT4_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 4 moving reversed]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT5_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 5 moving forward]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT5_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 5 moving reversed]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT6_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 6 moving forward]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="JOINT6_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of Joint 6 moving reversed]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="IN_SPEED">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Speed of the movement]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="INDEX">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[this is the output of the joint index]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUT_SPEED">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Speed of the movement]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block selects an index.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="JogTypeSelection" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="X_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of moving forward of X/RX]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="X_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of moving backword of X/RX]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="Y_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of moving forward of Y/RY]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="Y_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of moving backword of Y/RY]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="Z_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of moving forward of Z/RZ]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="Z_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of moving backword of Z/RZ]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="IN_SPEED">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Speed of the movement]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="JOGTYPE">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of the jog type]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="OUT_SPEED">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Speed of the movement]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block selects a jogtype.]]></xhtml:p>
+      </documentation>
+    </pou>
 
     </pous>    
   </types>

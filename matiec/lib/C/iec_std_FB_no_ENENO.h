@@ -616,6 +616,42 @@ typedef struct {
   __DECLARE_VAR(STRING,LOAD)
   __DECLARE_VAR(REAL,SPEED)
 } MOVEJOGROTATION;
+// FUNCTION_BLOCK JOGJOINTSELECTION
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,JOINT1_F)
+  __DECLARE_VAR(BOOL,JOINT1_R)
+  __DECLARE_VAR(BOOL,JOINT2_F)
+  __DECLARE_VAR(BOOL,JOINT2_R)
+  __DECLARE_VAR(BOOL,JOINT3_F)
+  __DECLARE_VAR(BOOL,JOINT3_R)
+  __DECLARE_VAR(BOOL,JOINT4_F)
+  __DECLARE_VAR(BOOL,JOINT4_R)
+  __DECLARE_VAR(BOOL,JOINT5_F)
+  __DECLARE_VAR(BOOL,JOINT5_R)
+  __DECLARE_VAR(BOOL,JOINT6_F)
+  __DECLARE_VAR(BOOL,JOINT6_R)
+  __DECLARE_VAR(REAL,IN_SPEED)
+  __DECLARE_VAR(SINT,INDEX)
+  __DECLARE_VAR(REAL,OUT_SPEED)
+
+} JOGJOINTSELECTION;
+// FUNCTION_BLOCK JOGTYPESELECTION
+// Data part
+typedef struct {
+  // FB Interface - IN, OUT, IN_OUT variables
+  __DECLARE_VAR(BOOL,X_F)
+  __DECLARE_VAR(BOOL,X_R)
+  __DECLARE_VAR(BOOL,Y_F)
+  __DECLARE_VAR(BOOL,Y_R)
+  __DECLARE_VAR(BOOL,Z_F)
+  __DECLARE_VAR(BOOL,Z_R)
+  __DECLARE_VAR(REAL,IN_SPEED)
+  __DECLARE_VAR(SINT,JOGTYPE)
+  __DECLARE_VAR(REAL,OUT_SPEED)
+
+} JOGTYPESELECTION;
 
 
 
@@ -2187,6 +2223,177 @@ static void MOVEJOGROTATION_body__(MOVEJOGROTATION *data__) {
   __end:
   return;
 } // MOVEJOGROTATION_body__() 
+
+// FUNCTION_BLOCK JOGJOINTSELECTION
+static void JOGJOINTSELECTION_init__(JOGJOINTSELECTION *data__, BOOL retain) {
+  __INIT_VAR(data__->JOINT1_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT1_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT2_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT2_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT3_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT3_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT4_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT4_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT5_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT5_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT6_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->JOINT6_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->IN_SPEED,1.0,retain)
+  __INIT_VAR(data__->INDEX,0,retain)
+  __INIT_VAR(data__->OUT_SPEED,1.0,retain)
+}
+// Code part
+static void JOGJOINTSELECTION_body__(JOGJOINTSELECTION *data__) {
+
+  
+  int count = 0;
+  int joint = 0;
+  bool forward = true;
+  
+  if(GetFbVar(JOINT1_F)){
+    count++;
+    joint = 1;
+    forward = true;
+  }
+  if(GetFbVar(JOINT1_R)){
+    count++;
+    joint = 1;
+    forward = false;
+  }
+  if(GetFbVar(JOINT2_F)){
+    count++;
+    joint = 2;
+    forward = true;
+  }
+  if(GetFbVar(JOINT2_R)){
+    count++;
+    joint = 2;
+    forward = false;
+  }
+  if(GetFbVar(JOINT3_F)){
+    count++;
+    joint = 3;
+    forward = true;
+  }
+  if(GetFbVar(JOINT3_R)){
+    count++;
+    joint = 3;
+    forward = false;
+  }
+  if(GetFbVar(JOINT4_F)){
+    count++;
+    joint = 4;
+    forward = true;
+  }
+  if(GetFbVar(JOINT4_R)){
+    count++;
+    joint = 4;
+    forward = false;
+  }
+  if(GetFbVar(JOINT5_F)){
+    count++;
+    joint = 5;
+    forward = true;
+  }
+  if(GetFbVar(JOINT5_R)){
+    count++;
+    joint = 5;
+    forward = false;
+  }
+  if(GetFbVar(JOINT6_F)){
+    count++;
+    joint = 6;
+    forward = true;
+  }
+  if(GetFbVar(JOINT6_R)){
+    count++;
+    joint = 6;
+    forward = false;
+  }
+  if(count == 1){
+    SetFbVar(INDEX, joint);
+    if(forward){
+      SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
+    }
+    else{
+      SetFbVar(OUT_SPEED, 0 - GetFbVar(IN_SPEED));
+    }
+  }
+  else{
+    SetFbVar(INDEX, 0);
+    SetFbVar(OUT_SPEED, 0);
+  }
+  goto __end;
+  __end:
+  return;
+} // JOGJOINTSELECTION_body__() // FUNCTION_BLOCK JOGJOINTSELECTION
+
+// FUNCTION_BLOCK JOGJOINTSELECTION
+static void JOGTYPESELECTION_init__(JOGTYPESELECTION *data__, BOOL retain) {
+  __INIT_VAR(data__->X_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->X_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->Y_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->Y_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->Z_F,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->Z_R,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->IN_SPEED,1.0,retain)
+  __INIT_VAR(data__->JOGTYPE,0,retain)
+  __INIT_VAR(data__->OUT_SPEED,1.0,retain)
+}
+// Code part
+static void JOGTYPESELECTION_body__(JOGTYPESELECTION *data__) {
+
+  int count = 0;
+  int JOGTYPE = 0;
+  bool forward = true;
+  
+  if(GetFbVar(X_F)){
+    count++;
+    JOGTYPE = 1;
+    forward = true;
+  }
+  if(GetFbVar(X_R)){
+    count++;
+    JOGTYPE = 1;
+    forward = false;
+  }
+  if(GetFbVar(Y_F)){
+    count++;
+    JOGTYPE = 2;
+    forward = true;
+  }
+  if(GetFbVar(Y_R)){
+    count++;
+    JOGTYPE = 2;
+    forward = false;
+  }
+  if(GetFbVar(Z_F)){
+    count++;
+    JOGTYPE = 3;
+    forward = true;
+  }
+  if(GetFbVar(Z_R)){
+    count++;
+    JOGTYPE = 3;
+    forward = false;
+  }
+  if(count == 1){
+    SetFbVar(JOGTYPE, JOGTYPE);
+    if(forward){
+      SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
+    }
+    else{
+      SetFbVar(OUT_SPEED, 0 - GetFbVar(IN_SPEED));
+    }
+  }
+  else{
+    SetFbVar(JOGTYPE, 0);
+    SetFbVar(OUT_SPEED, 0);
+  }
+  goto __end;
+  __end:
+  return;
+} // JOGTYPESELECTION_body__() // FUNCTION_BLOCK JOGTYPESELECTION
 
 
 #undef GetFbVar
