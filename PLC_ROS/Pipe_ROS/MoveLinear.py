@@ -68,7 +68,7 @@ class MoveLinearHandler():
                         #Create a goal
                         goal = MotionMoveLinear.Goal()
                         goal.id = 1
-                        goal.user = [1.0] + [0.0] * 7
+                        goal.user = [1.0] + [0.0] * 6
                         goal.tool = [0.0] * 7
                         goal.topoint = [float(x) for x in msg[0].split(',')[:]]
 

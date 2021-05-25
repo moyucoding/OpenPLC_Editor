@@ -25,14 +25,16 @@ class MoveJointHandler():
                     #
 
                     print('[Get]  MoveJoint result.')
-                    time.sleep(1)
-                    os.write(fd, 'y '.encode('utf-8'))
+                    #time.sleep(1)
+                    ret = 'y' + ' '*399
+                    os.write(fd, ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveJoint result.')
+                    time.sleep(0.1)
             except:
                 print('[ERROR]  MoveJoint.')
 
-            time.sleep(0.1)
+            time.sleep(0.01)
 
 if __name__ == '__main__':
     MoveJoint_Pipepath = '/tmp/MoveJoint.pipe'

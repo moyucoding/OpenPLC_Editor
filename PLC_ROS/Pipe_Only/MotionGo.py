@@ -24,7 +24,8 @@ class MotionGoHandler():
 
                     print('[Get]  MotionGo result.')
                     time.sleep(1)
-                    os.write(fd, '1'.encode('utf-8'))
+                    ret = '1'
+                    os.write(fd, ret.encode('utf-8'))
                     print('[Sent]  MotionGo result.')
             except:
                 print('[ERROR]  MotionGo.')

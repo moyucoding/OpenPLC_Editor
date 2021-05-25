@@ -16,7 +16,7 @@ class MoveCircleHandler():
 
         while True:
             try:
-                data = os.read(fd, 400)
+                data = os.read(fd, 500)
                 if data.decode('utf-8').split(';')[0] == 'MoveCircle':
                     print('[Get]  MoveCircle request.')
                     request = data.decode('utf-8')
@@ -26,7 +26,8 @@ class MoveCircleHandler():
 
                     print('[Get]  MoveCircle result.')
                     time.sleep(1)
-                    os.write(fd, 'y '.encode('utf-8'))
+                    ret = 'y' + ' '*499
+                    os.write(fd, ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveCircle result.')
             except:

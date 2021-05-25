@@ -26,13 +26,15 @@ class MoveAbsJointHandler():
 
                     print('[Get]  MoveAbsJoint result.')
                     time.sleep(1)
-                    os.write(fd, 'y '.encode('utf-8'))
+                    ret = 'y' + ' '*399
+                    os.write(fd, ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveAbsJoint result.')
+                    time.sleep(0.1)
             except:
                 print('[ERROR]  MoveAbsJoint.')
 
-            time.sleep(0.1)
+            time.sleep(0.01)
 
 if __name__ == '__main__':
     MoveAbsJoint_Pipepath = '/tmp/MoveAbsJoint.pipe'

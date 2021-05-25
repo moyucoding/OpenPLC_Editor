@@ -26,6 +26,7 @@ class MoveLinearHandler():
 
                     print('[Get]  MoveLinear result.')
                     time.sleep(1)
+                    ret = 'y' + ' '*399
                     os.write(fd, 'y '.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveLinear result.')

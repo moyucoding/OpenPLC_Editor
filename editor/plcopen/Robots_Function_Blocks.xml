@@ -17,6 +17,46 @@
   <types>
     <dataTypes/>
     <pous>
+    <pou name="RobotEnable" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[TRUE to enable the block]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="STATE">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Current state of robot]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows if robot is enabled]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block makes the robot ready.]]></xhtml:p>
+      </documentation>
+    </pou>
 
     <pou name="MotionGo" pouType="functionBlock">
       <interface>
@@ -114,6 +154,62 @@
       </body>
       <documentation>
         <xhtml:p><![CDATA[This block gets the current joints of the robot.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="GetCurState" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[TRUE to enable the block]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="STATE">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output shows the state]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block gets the current state of the robot.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="ErrorRecover" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ENABLE">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[TRUE to start recover]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[If ENABLE = TRUE then run]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block starts error recovering.]]></xhtml:p>
       </documentation>
     </pou>
 
@@ -861,6 +957,47 @@
       </body>
       <documentation>
         <xhtml:p><![CDATA[This block selects a jogtype.]]></xhtml:p>
+      </documentation>
+    </pou>
+
+    <pou name="SpeedAdjust" pouType="functionBlock">
+      <interface>
+        <inputVars>
+          <variable name="ACC">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of accelerating speed]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="DEC">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of decelerating speed]]></xhtml:p>
+            </documentation>
+          </variable>
+        </inputVars>
+        <outputVars>
+          <variable name="SPEED">
+            <type>
+              <REAL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[Speed of the movement]]></xhtml:p>
+            </documentation>
+          </variable>
+        </outputVars>
+      </interface>
+      <body>
+        <ST>
+          <xhtml:p><![CDATA[]]></xhtml:p>
+        </ST>
+      </body>
+      <documentation>
+        <xhtml:p><![CDATA[This block adjusts the speed of movement.]]></xhtml:p>
       </documentation>
     </pou>
 
