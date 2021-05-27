@@ -22,10 +22,9 @@ class GetCurStateHandler():
                     ret = '1'
                     os.write(fd,ret.encode('utf-8'))
                     print('[Sent]  GetCurState result.')
-                    time.sleep(0.1)
             except:
                 print('[Error]  GetCurState')
-            time.sleep(0.001)
+            time.sleep(0.01)
 
 if __name__ == '__main__':
     GetCurState_Pipepath = '/tmp/GetCurState.pipe'

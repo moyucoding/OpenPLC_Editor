@@ -33,7 +33,7 @@ class MoveLinearHandler():
             except:
                 print('[ERROR]  MoveLinear.')
 
-            time.sleep(0.1)
+            time.sleep(0.01)
 
 if __name__ == '__main__':
     MoveLinear_Pipepath = '/tmp/MoveLinear.pipe'

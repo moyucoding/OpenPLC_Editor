@@ -25,12 +25,11 @@ class MoveJointHandler():
                     #
 
                     print('[Get]  MoveJoint result.')
-                    #time.sleep(1)
+                    time.sleep(1)
                     ret = 'y' + ' '*399
                     os.write(fd, ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveJoint result.')
-                    time.sleep(0.1)
             except:
                 print('[ERROR]  MoveJoint.')
 

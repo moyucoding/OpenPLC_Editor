@@ -33,7 +33,7 @@ class GetCurJointHandler():
                     
             except:
                 print('[Error]  GetCurJoint')
-            time.sleep(0.1)
+            time.sleep(0.01)
 
 if __name__ == '__main__':
     GetCurJoint_Pipepath = '/tmp/GetCurJoint.pipe'

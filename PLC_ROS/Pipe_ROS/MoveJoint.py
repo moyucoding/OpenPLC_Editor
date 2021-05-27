@@ -68,7 +68,7 @@ class MoveJointHandler():
                         #Create a goal
                         goal = MotionMoveJoint.Goal()
                         goal.id = 1
-                        goal.user = [1.0] + [0.0] * 6
+                        goal.user = [0.0] * 7
                         goal.tool = [0.0] * 7
                         goal.topoint = [float(x) for x in msg[0].split(',')[:]]
 
@@ -93,14 +93,14 @@ class MoveJointHandler():
                         print('[Get]  MoveJoint result.')
                         print('[Sent]  MoveJoint result.')
                         if self.ros_handler._ret:
-                            validcode = 'y' + ' '*9
+                            validcode = 'y' + ' '*399
                             os.write(fd,validcode.encode('utf-8'))
                         else:
-                            errorcode = 'n1'+' '*8
+                            errorcode = 'n1'+' '*398
                             os.write(fd,errorcode.encode('utf-8'))
                     except:
-                        errorcode = 'n1'+' '*8
+                        errorcode = 'n1'+' '*398
                         os.write(fd,errorcode.encode('utf-8'))
             except:
                 print('[Error]  MoveJoint')
-            time.sleep(0.1)
+            time.sleep(0.01)

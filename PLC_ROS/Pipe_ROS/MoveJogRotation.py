@@ -59,4 +59,4 @@ class MoveJogRotationHandler():
 
             except:
                 print('[Error]  MoveJogRotation')
-            time.sleep(0.1)
+            time.sleep(0.01)

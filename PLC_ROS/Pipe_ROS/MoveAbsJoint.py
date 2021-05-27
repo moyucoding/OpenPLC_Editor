@@ -94,14 +94,14 @@ class MoveAbsJointHandler():
                         print('[Get]  MoveAbsJoint result.')
                         print('[Sent]  MoveAbsJoint result.')
                         if self.ros_handler._ret:
-                            validcode = 'y' + ' '*9
+                            validcode = 'y' + ' '*399
                             os.write(fd,validcode.encode('utf-8'))
                         else:
-                            errorcode = 'n1'+' '*8
+                            errorcode = 'n1'+' '*398
                             os.write(fd,errorcode.encode('utf-8'))
                     except:
-                        errorcode = 'n1'+' '*8
+                        errorcode = 'n1'+' '*398
                         os.write(fd,errorcode.encode('utf-8'))
             except:
                 print('[Error]  MoveAbsJoint')
-            time.sleep(0.1)
+            time.sleep(0.01)

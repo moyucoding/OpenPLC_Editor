@@ -30,7 +30,6 @@ class MoveAbsJointHandler():
                     os.write(fd, ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveAbsJoint result.')
-                    time.sleep(0.1)
             except:
                 print('[ERROR]  MoveAbsJoint.')
 

@@ -64,4 +64,4 @@ class MoveJogLinearHandler():
 
             except:
                 print('[Error]  MoveJogLinear')
-            time.sleep(0.1)
+            time.sleep(0.01)
