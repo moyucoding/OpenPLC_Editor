@@ -13,7 +13,7 @@ import MoveJogRotation
 
 
 
-def main():
+def main(interval):
 
     
     MotionGo_Pipepath = '/tmp/MotionGo.pipe'
@@ -27,22 +27,22 @@ def main():
     thread_GetCurJoint.start()
 
     MoveAbsJoint_Pipepath = '/tmp/MoveAbsJoint.pipe'
-    handler_MoveAbsJoint = MoveAbsJoint.MoveAbsJointHandler(MoveAbsJoint_Pipepath)
+    handler_MoveAbsJoint = MoveAbsJoint.MoveAbsJointHandler(MoveAbsJoint_Pipepath, interval)
     thread_MoveAbsJoint = threading.Thread(target = handler_MoveAbsJoint.runHandler)
     thread_MoveAbsJoint.start()
 
     MoveJoint_Pipepath = '/tmp/MoveJoint.pipe'
-    handler_MoveJoint = MoveJoint.MoveJointHandler(MoveJoint_Pipepath)
+    handler_MoveJoint = MoveJoint.MoveJointHandler(MoveJoint_Pipepath, interval)
     thread_MoveJoint = threading.Thread(target = handler_MoveJoint.runHandler)
     thread_MoveJoint.start()
 
     MoveLinear_Pipepath = '/tmp/MoveLinear.pipe'
-    handler_MoveLinear = MoveLinear.MoveLinearHandler(MoveLinear_Pipepath)
+    handler_MoveLinear = MoveLinear.MoveLinearHandler(MoveLinear_Pipepath, interval)
     thread_MoveLinear = threading.Thread(target = handler_MoveLinear.runHandler)
     thread_MoveLinear.start()
 
     MoveCircle_Pipepath = '/tmp/MoveCircle.pipe'
-    handler_MoveCircle = MoveCircle.MoveCircleHandler(MoveCircle_Pipepath)
+    handler_MoveCircle = MoveCircle.MoveCircleHandler(MoveCircle_Pipepath, interval)
     thread_MoveCircle = threading.Thread(target = handler_MoveCircle.runHandler)
     thread_MoveCircle.start()
 
@@ -67,4 +67,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    interval = 0.02
+    main(interval)

@@ -192,7 +192,7 @@ FUNCTION_BLOCK MOVEABSJOINT
     ENABLE : BOOL := false;
     JOINT : STRING := '0,0,0,0,0,0';
     EXTJOINT : STRING := '0,0,0,0,0,0';
-    LOAD : STRING := '0,0,0,0,0,0';
+    LOAD : STRING := '0,0,0,0,0,0,0,0,0,0';
     SPEED : REAL := 1.0;
     ZONE : REAL := 0.0;
   END_VAR
@@ -201,15 +201,18 @@ FUNCTION_BLOCK MOVEABSJOINT
     ERROR : BOOL := false;
     ERRORCODE : SINT := 0;
   END_VAR
+  VAR
+    WAIT : SINT := 0;
+  END_VAR
 
   {{
-    SetFbVar(VALID, false);
-    SetFbVar(ERROR, false);
-    SetFbVar(ERRORCODE, 0);
-
+    int wait = GetFbVar(WAIT);
     bool enable = GetFbVar(ENABLE);
     int fd = open("/tmp/MoveAbsJoint.pipe",O_RDWR | O_NONBLOCK);
-    if(enable){
+    if(wait==0 && enable){
+      SetFbVar(WAIT, 1);
+    }
+    else if(wait == 1){
       char buf[400] = {"MoveAbsJoint;"};
       //JOINT
       char *word = GetFbVar(JOINT).body;
@@ -234,24 +237,35 @@ FUNCTION_BLOCK MOVEABSJOINT
       strcat(buf,word);
       strcat(buf,";");
       
-      write(fd, buf, 400);
+      int ret = write(fd, buf, 400);
+      if(ret > 0){
+        SetFbVar(WAIT, 2);
+      }
     }
-  
-    char buf[400];
-    int ret = read(fd, buf, 400);
-    if(ret>0){
-      if(buf[0]=='n'){
-        //ERROR
-        SetFbVar(ERROR, true);
-        //1-digit error id
-        SetFbVar(ERRORCODE, buf[1] - 48);
+    else if(wait == 2){
+      char buf[400];
+      int ret = read(fd, buf, 400);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+        SetFbVar(WAIT, 3);
       }
-      else if(buf[0] == 'y'){
-        SetFbVar(VALID, true);
-      }
+    }
+    else if((wait == 3) && !enable){
+      
+      SetFbVar(VALID, false);
+      SetFbVar(ERROR, false);
+      SetFbVar(ERRORCODE, 0);
+      SetFbVar(WAIT, 0);
     }
     close(fd);
-
   }}
 END_FUNCTION_BLOCK
 
@@ -269,15 +283,18 @@ FUNCTION_BLOCK MOVEJOINT
     ERROR : BOOL := false;
     ERRORCODE : SINT := 0;
   END_VAR
+  VAR
+    WAIT : SINT := 0;
+  END_VAR
 
   {{
-    SetFbVar(VALID, false);
-    SetFbVar(ERROR, false);
-    SetFbVar(ERRORCODE, 0);
-
+    int wait = GetFbVar(WAIT);
     bool enable = GetFbVar(ENABLE);
     int fd = open("/tmp/MoveJoint.pipe",O_RDWR | O_NONBLOCK);
-    if(enable){
+    if(wait==0 && enable){
+      SetFbVar(WAIT, 1);
+    }
+    else if(wait == 1){
       char buf[400] = {"MoveJoint;"};
       //TOPOINT
       char *word = GetFbVar(TOPOINT).body;
@@ -302,23 +319,35 @@ FUNCTION_BLOCK MOVEJOINT
       strcat(buf,word);
       strcat(buf,";");
       
-      write(fd, buf, 400);
+      int ret = write(fd, buf, 400);
+      if(ret > 0){
+        SetFbVar(WAIT, 2);
+      }
     }
-    char buf[400];
-    int ret = read(fd, buf, 400);
-    if(ret>0){
-      if(buf[0]=='n'){
-        //ERROR
-        SetFbVar(ERROR, true);
-        //1-digit error id
-        SetFbVar(ERRORCODE, buf[1] - 48);
+    else if(wait == 2){
+      char buf[400];
+      int ret = read(fd, buf, 400);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+        SetFbVar(WAIT, 3);
       }
-      else if(buf[0] == 'y'){
-        SetFbVar(VALID, true);
-      }
+    }
+    else if((wait == 3) && !enable){
+      
+      SetFbVar(VALID, false);
+      SetFbVar(ERROR, false);
+      SetFbVar(ERRORCODE, 0);
+      SetFbVar(WAIT, 0);
     }
     close(fd);
-
   }}
 END_FUNCTION_BLOCK
 
@@ -336,15 +365,18 @@ FUNCTION_BLOCK MOVELINEAR
     ERROR : BOOL := false;
     ERRORCODE : SINT := 0;
   END_VAR
+  VAR
+    WAIT : SINT := 0;
+  END_VAR
 
   {{
-    SetFbVar(VALID, false);
-    SetFbVar(ERROR, false);
-    SetFbVar(ERRORCODE, 0);
-
+    int wait = GetFbVar(WAIT);
     bool enable = GetFbVar(ENABLE);
     int fd = open("/tmp/MoveLinear.pipe",O_RDWR | O_NONBLOCK);
-    if(enable){
+    if(wait==0 && enable){
+      SetFbVar(WAIT, 1);
+    }
+    else if(wait == 1){
       char buf[400] = {"MoveLinear;"};
       //TOPOINT
       char *word = GetFbVar(TOPOINT).body;
@@ -369,23 +401,35 @@ FUNCTION_BLOCK MOVELINEAR
       strcat(buf,word);
       strcat(buf,";");
       
-      write(fd, buf, 400);
+      int ret = write(fd, buf, 400);
+      if(ret > 0){
+        SetFbVar(WAIT, 2);
+      }
     }
-    char buf[400];
-    int ret = read(fd, buf, 400);
-    if(ret>0){
-      if(buf[0]=='n'){
-        //ERROR
-        SetFbVar(ERROR, true);
-        //1-digit error id
-        SetFbVar(ERRORCODE, buf[1] - 48);
+    else if(wait == 2){
+      char buf[400];
+      int ret = read(fd, buf, 400);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+        SetFbVar(WAIT, 3);
       }
-      else if(buf[0] == 'y'){
-        SetFbVar(VALID, true);
-      }
+    }
+    else if((wait == 3) && !enable){
+      
+      SetFbVar(VALID, false);
+      SetFbVar(ERROR, false);
+      SetFbVar(ERRORCODE, 0);
+      SetFbVar(WAIT, 0);
     }
     close(fd);
-
   }}
 END_FUNCTION_BLOCK
 
@@ -405,15 +449,18 @@ FUNCTION_BLOCK MOVECIRCLE
     ERROR : BOOL := false;
     ERRORCODE : SINT := 0;
   END_VAR
+  VAR
+    WAIT : SINT := 0;
+  END_VAR
 
   {{
-    SetFbVar(VALID, false);
-    SetFbVar(ERROR, false);
-    SetFbVar(ERRORCODE, 0);
-
+    int wait = GetFbVar(WAIT);
     bool enable = GetFbVar(ENABLE);
     int fd = open("/tmp/MoveCircle.pipe",O_RDWR | O_NONBLOCK);
-    if(enable){
+    if(wait==0 && enable){
+      SetFbVar(WAIT, 1);
+    }
+    else if(wait == 1){
       char buf[500] = {"MoveCircle;"};
       //POINT
       char *word = GetFbVar(TOPOINT).body;
@@ -446,25 +493,35 @@ FUNCTION_BLOCK MOVECIRCLE
       strcat(buf,word);
       strcat(buf,";");
       
-      write(fd, buf, 500);
-    }
-
-    char buf[500];
-    int ret = read(fd, buf, 500);
-    if(ret>0){
-      if(buf[0]=='n'){
-        //ERROR
-        SetFbVar(ERROR, true);
-        //1-digit error id
-        SetFbVar(ERRORCODE, buf[1] - 48);
-      }
-      else if(buf[0] == 'y'){
-        SetFbVar(VALID, true);
+      int ret = write(fd, buf, 500);
+      if(ret > 0){
+        SetFbVar(WAIT, 2);
       }
     }
-    
+    else if(wait == 2){
+      char buf[500];
+      int ret = read(fd, buf, 500);
+      if(ret>0){
+        if(buf[0]=='n'){
+          //ERROR
+          SetFbVar(ERROR, true);
+          //1-digit error id
+          SetFbVar(ERRORCODE, buf[1] - 48);
+        }
+        else if(buf[0] == 'y'){
+          SetFbVar(VALID, true);
+        }
+        SetFbVar(WAIT, 3);
+      }
+    }
+    else if((wait == 3) && !enable){
+      
+      SetFbVar(VALID, false);
+      SetFbVar(ERROR, false);
+      SetFbVar(ERRORCODE, 0);
+      SetFbVar(WAIT, 0);
+    }
     close(fd);
-
   }}
 END_FUNCTION_BLOCK
 

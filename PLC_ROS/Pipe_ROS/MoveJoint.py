@@ -46,9 +46,11 @@ class MoveJointActionClient(Node):
 
 
 class MoveJointHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.interval = interval
+        self.ret = ' '
 
         try:
             os.mkfifo(self.pipe_path)
@@ -93,14 +95,15 @@ class MoveJointHandler():
                         print('[Get]  MoveJoint result.')
                         print('[Sent]  MoveJoint result.')
                         if self.ros_handler._ret:
-                            validcode = 'y' + ' '*399
-                            os.write(fd,validcode.encode('utf-8'))
+                            self.ret = 'y' + ' '*399
                         else:
-                            errorcode = 'n1'+' '*398
-                            os.write(fd,errorcode.encode('utf-8'))
+                            self.ret = 'n1'+' '*398
+                        os.write(self.ret.encode('utf-8'))
+                        time.sleep(self.interval)
                     except:
-                        errorcode = 'n1'+' '*398
-                        os.write(fd,errorcode.encode('utf-8'))
+                        self.ret = 'n1'+' '*398
+                        os.write(fd,self.encode('utf-8'))
+                        time.sleep(self.interval)
             except:
                 print('[Error]  MoveJoint')
-            time.sleep(0.01)
+            time.sleep(self.interval/2)

@@ -2,9 +2,11 @@ import os
 import time
 
 class MoveLinearHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.interval = interval
+        self.ret = ' '*400
 
         try:
             os.mkfifo(self.pipe_path)
@@ -22,20 +24,22 @@ class MoveLinearHandler():
                     request = data.decode('utf-8')
                     msg = request.split(';')[1:-1]
                     print(msg)
-                    #
 
                     print('[Get]  MoveLinear result.')
-                    time.sleep(1)
-                    ret = 'y' + ' '*399
-                    os.write(fd, 'y '.encode('utf-8'))
+                    time.sleep(3)
+                    self.ret = 'y' + ' '*399
+                    os.write(fd, self.ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveLinear result.')
+                    time.sleep(self.interval)
             except:
+                os.write(fd, self.ret.encode('utf-8'))
                 print('[ERROR]  MoveLinear.')
 
-            time.sleep(0.01)
+            time.sleep(self.interval/2)
 
 if __name__ == '__main__':
     MoveLinear_Pipepath = '/tmp/MoveLinear.pipe'
-    mj = MoveLinearHandler(MoveLinear_Pipepath)
+    interval = 0.02
+    mj = MoveLinearHandler(MoveLinear_Pipepath, interval)
     mj.runHandler()

@@ -2,9 +2,11 @@ import os
 import time
 
 class MoveAbsJointHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.interval = interval
+        self.ret = ' '*400
 
         try:
             os.mkfifo(self.pipe_path)
@@ -22,20 +24,22 @@ class MoveAbsJointHandler():
                     request = data.decode('utf-8')
                     msg = request.split(';')[1:-1]
                     print(msg)
-                    #
 
                     print('[Get]  MoveAbsJoint result.')
                     time.sleep(1)
-                    ret = 'y' + ' '*399
-                    os.write(fd, ret.encode('utf-8'))
+                    self.ret = 'y' + ' '*399
+                    os.write(fd, self.ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveAbsJoint result.')
+                    time.sleep(self.interval)
             except:
+                os.write(fd, self.ret.encode('utf-8'))
                 print('[ERROR]  MoveAbsJoint.')
 
-            time.sleep(0.01)
+            time.sleep(self.interval/2)
 
 if __name__ == '__main__':
     MoveAbsJoint_Pipepath = '/tmp/MoveAbsJoint.pipe'
-    maj = MoveAbsJointHandler(MoveAbsJoint_Pipepath)
+    interval = 0.02
+    maj = MoveAbsJointHandler(MoveAbsJoint_Pipepath, interval)
     maj.runHandler()

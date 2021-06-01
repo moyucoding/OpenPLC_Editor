@@ -2,9 +2,11 @@ import os
 import time
 
 class MoveCircleHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.interval = interval
+        self.ret = ' '*400
 
         try:
             os.mkfifo(self.pipe_path)
@@ -22,20 +24,22 @@ class MoveCircleHandler():
                     request = data.decode('utf-8')
                     msg = request.split(';')[1:-1]
                     print(msg)
-                    #
 
                     print('[Get]  MoveCircle result.')
-                    time.sleep(1)
+                    time.sleep(3)
                     ret = 'y' + ' '*499
                     os.write(fd, ret.encode('utf-8'))
                     #os.write(fd, 'n1'.encode('utf-8'))
                     print('[Sent]  MoveCircle result.')
+                    time.sleep(self.interval)
             except:
+                os.write(fd, self.ret.encode('utf-8'))
                 print('[ERROR]  MoveCircle.')
 
-            time.sleep(0.01)
+            time.sleep(self.interval)
 
 if __name__ == '__main__':
     MoveCircle_Pipepath = '/tmp/MoveCircle.pipe'
-    mj = MoveCircleHandler(MoveCircle_Pipepath)
+    interval = 0.02
+    mj = MoveCircleHandler(MoveCircle_Pipepath, interval)
     mj.runHandler()

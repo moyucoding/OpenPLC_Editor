@@ -46,9 +46,11 @@ class MoveCircleActionClient(Node):
 
 
 class MoveCircleHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.interval = interval
+        self.ret = ' '
 
         try:
             os.mkfifo(self.pipe_path)
@@ -100,14 +102,15 @@ class MoveCircleHandler():
                         print('[Get]  MoveCircle result.')
                         print('[Sent]  MoveCircle result.')
                         if self.ros_handler._ret:
-                            validcode = 'y' + ' '*499
-                            os.write(fd,validcode.encode('utf-8'))
+                            self.ret = 'y' + ' '*399
                         else:
-                            errorcode = 'n1'+' '*498
-                            os.write(fd,errorcode.encode('utf-8'))
+                            self.ret = 'n1'+' '*398
+                        os.write(self.ret.encode('utf-8'))
+                        time.sleep(self.interval)
                     except:
-                        errorcode = 'n1'+' '*498
-                        os.write(fd,errorcode.encode('utf-8'))
+                        self.ret = 'n1'+' '*398
+                        os.write(fd,self.encode('utf-8'))
+                        time.sleep(self.interval)
             except:
                 print('[Error]  MoveCircle')
-            time.sleep(0.01)
+            time.sleep(self.interval/2)
