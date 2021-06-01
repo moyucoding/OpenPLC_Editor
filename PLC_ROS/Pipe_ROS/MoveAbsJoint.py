@@ -70,8 +70,9 @@ class MoveAbsJointHandler():
                         #Create a goal
                         goal = MotionMoveAbsJoint.Goal()
                         goal.id = 1
-                        joint = [float(x) for x in msg[0].split(',')[:]]
+    
                         goal.joint = [0.0] * 8
+                        joint = [float(x) for x in msg[0].split(',')[:]]
                         for i in range(len(joint)):
                             goal.joint[i] = joint[i]
 
@@ -81,7 +82,7 @@ class MoveAbsJointHandler():
                             goal.extjoint[i] = extjoint[i]
 
                         load = [float(x) for x in msg[2].split(',')[:]]
-                        goal.joint = [0.0] * 10
+                        goal.load = [0.0] * 10
                         for i in range(len(load)):
                             goal.load[i] = load[i]
 
@@ -99,7 +100,7 @@ class MoveAbsJointHandler():
                             self.ret = 'y' + ' '*399
                         else:
                             self.ret = 'n1'+' '*398
-                        os.write(self.ret.encode('utf-8'))
+                        os.write(fd,self.ret.encode('utf-8'))
                         time.sleep(self.interval)
                     except:
                         self.ret = 'n1'+' '*398

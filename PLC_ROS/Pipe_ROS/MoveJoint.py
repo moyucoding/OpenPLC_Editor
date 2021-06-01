@@ -70,7 +70,7 @@ class MoveJointHandler():
                         #Create a goal
                         goal = MotionMoveJoint.Goal()
                         goal.id = 1
-                        goal.user = [0.0] * 7
+                        goal.user = [1.0] + [0.0] * 6
                         goal.tool = [0.0] * 7
                         goal.topoint = [float(x) for x in msg[0].split(',')[:]]
 
@@ -98,7 +98,7 @@ class MoveJointHandler():
                             self.ret = 'y' + ' '*399
                         else:
                             self.ret = 'n1'+' '*398
-                        os.write(self.ret.encode('utf-8'))
+                        os.write(fd,self.ret.encode('utf-8'))
                         time.sleep(self.interval)
                     except:
                         self.ret = 'n1'+' '*398

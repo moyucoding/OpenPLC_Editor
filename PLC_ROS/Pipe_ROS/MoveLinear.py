@@ -97,7 +97,7 @@ class MoveLinearHandler():
                             self.ret = 'y' + ' '*399
                         else:
                             self.ret = 'n1'+' '*398
-                        os.write(self.ret.encode('utf-8'))
+                        os.write(fd,self.ret.encode('utf-8'))
                         time.sleep(self.interval)
                     except:
                         self.ret = 'n1'+' '*398

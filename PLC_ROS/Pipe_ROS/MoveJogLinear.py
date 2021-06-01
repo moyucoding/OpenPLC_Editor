@@ -44,7 +44,7 @@ class MoveJogLinearHandler():
                     #Create a goal
                     goal = MotionJogLinear.Goal()
                     goal.id = 1
-                    goal.user = [0.0] * 7
+                    goal.user = [1.0] + [0.0] * 6
                     goal.tool = [0.0] * 7
 
                     goal.jogtype = int(msg[0])
