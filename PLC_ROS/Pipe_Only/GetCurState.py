@@ -19,7 +19,7 @@ class GetCurStateHandler():
                 data = os.read(fd, 20)
                 if data.decode('utf-8').split(';')[0] == 'GetCurState':
                     print('[Get]  GetCurState request.')
-                    ret = '1'
+                    ret = '1' + ' '*19
                     os.write(fd,ret.encode('utf-8'))
                     print('[Sent]  GetCurState result.')
             except:

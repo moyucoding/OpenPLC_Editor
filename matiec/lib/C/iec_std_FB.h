@@ -730,8 +730,10 @@ typedef struct {
   __DECLARE_VAR(BOOL,JOINT6_F)
   __DECLARE_VAR(BOOL,JOINT6_R)
   __DECLARE_VAR(REAL,IN_SPEED)
+  __DECLARE_VAR(BOOL,VALID)
   __DECLARE_VAR(SINT,INDEX)
   __DECLARE_VAR(REAL,OUT_SPEED)
+  
 
 } JOGJOINTSELECTION;
 // FUNCTION_BLOCK JOGTYPESELECTION
@@ -747,6 +749,7 @@ typedef struct {
   __DECLARE_VAR(BOOL,Z_F)
   __DECLARE_VAR(BOOL,Z_R)
   __DECLARE_VAR(REAL,IN_SPEED)
+  __DECLARE_VAR(BOOL,VALID)
   __DECLARE_VAR(SINT,JOGTYPE)
   __DECLARE_VAR(REAL,OUT_SPEED)
 
@@ -2144,9 +2147,9 @@ static void ROBOTENABLE_body__(ROBOTENABLE *data__) {
       write(fd, buf, 20);
     }
   }
-  char buf[1];
-  int ret = read(fd, buf, 1);
-  if (ret > 0 && buf[0] == '1'){
+  char buf[20];
+  int ret = read(fd, buf, 20);
+  if (ret > 0 && buf[0] == 'y'){
     SetFbVar(VALID,true);
   }
   close(fd);
@@ -2188,9 +2191,9 @@ static void MOTIONGO_body__(MOTIONGO *data__) {
     }
   }
   
-  char buf[1];
-  int ret = read(fd, buf, 1);
-  if (buf[0] == '1'){
+  char buf[10];
+  int ret = read(fd, buf, 10);
+  if (buf[0] == 'y'){
     SetFbVar(VALID,true);
   }
   close(fd);
@@ -2222,8 +2225,8 @@ static void GETCURJOINT_body__(GETCURJOINT *data__) {
   int fd = open("/tmp/GetCurJoint.pipe",O_RDWR | O_NONBLOCK);
   if(enable){
     if(fd > 0){
-      char buf[20] = {"GetCurJoint;"};
-      write(fd, buf, 20);
+      char buf[200] = {"GetCurJoint;"};
+      write(fd, buf, 200);
     }
   }
   char buf[200];
@@ -2287,8 +2290,8 @@ static void GETCURSTATE_body__(GETCURSTATE *data__) {
     }
   }
   
-  char buf[1];
-  int ret = read(fd, buf, 1);
+  char buf[20];
+  int ret = read(fd, buf, 20;
   if(ret > 0){
     int res =  buf[0] - 48;
     if(0 <= res && res <= 5){
@@ -2823,6 +2826,7 @@ static void JOGJOINTSELECTION_init__(JOGJOINTSELECTION *data__, BOOL retain) {
   __INIT_VAR(data__->JOINT6_F,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->JOINT6_R,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->IN_SPEED,1.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->INDEX,0,retain)
   __INIT_VAR(data__->OUT_SPEED,1.0,retain)
 }
@@ -2895,6 +2899,7 @@ static void JOGJOINTSELECTION_body__(JOGJOINTSELECTION *data__) {
     forward = false;
   }
   if(count == 1){
+    SetFbVar(VALID, true);
     SetFbVar(INDEX, joint);
     if(forward){
       SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
@@ -2904,6 +2909,7 @@ static void JOGJOINTSELECTION_body__(JOGJOINTSELECTION *data__) {
     }
   }
   else{
+    SetFbVar(VALID, false);
     SetFbVar(INDEX, 0);
     SetFbVar(OUT_SPEED, 0);
   }
@@ -2923,6 +2929,7 @@ static void JOGTYPESELECTION_init__(JOGTYPESELECTION *data__, BOOL retain) {
   __INIT_VAR(data__->Z_F,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->Z_R,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->IN_SPEED,1.0,retain)
+  __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->JOGTYPE,0,retain)
   __INIT_VAR(data__->OUT_SPEED,1.0,retain)
 }
@@ -2964,6 +2971,7 @@ static void JOGTYPESELECTION_body__(JOGTYPESELECTION *data__) {
     forward = false;
   }
   if(count == 1){
+    SetFbVar(VALID, true);
     SetFbVar(JOGTYPE, JOGTYPE);
     if(forward){
       SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
@@ -2973,6 +2981,7 @@ static void JOGTYPESELECTION_body__(JOGTYPESELECTION *data__) {
     }
   }
   else{
+    SetFbVar(VALID, false);
     SetFbVar(JOGTYPE, 0);
     SetFbVar(OUT_SPEED, 0);
   }

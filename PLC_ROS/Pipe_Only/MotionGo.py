@@ -24,7 +24,7 @@ class MotionGoHandler():
 
                     print('[Get]  MotionGo result.')
                     time.sleep(1)
-                    ret = '1'
+                    ret = '1' + ' '*9
                     os.write(fd, ret.encode('utf-8'))
                     print('[Sent]  MotionGo result.')
             except:

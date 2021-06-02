@@ -39,7 +39,7 @@ class GetCurJointHandler():
         while True:
             try:
                 #Get request from PLC
-                data = os.read(fd,20)
+                data = os.read(fd,200)
                 if data.decode('utf-8').split(';')[0] == 'GetCurJoint':
                     print('[Get]  GetCurJoint request.')
                     try:

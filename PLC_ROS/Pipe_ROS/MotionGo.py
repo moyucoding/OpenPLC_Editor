@@ -18,8 +18,7 @@ class MotionGoActionClient(Node):
         goal_msg = MotionGo.Goal()
         self._action_client.wait_for_server()
         self._send_goal_future = self._action_client.send_goal_async(
-            goal_msg,
-            feedback_callback=self.feedback_callback)
+            goal_msg)
 
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
@@ -38,9 +37,6 @@ class MotionGoActionClient(Node):
         self.get_logger().info('Result: {0}'.format(result.ret))
         self._ret = result.ret
         rclpy.shutdown()
-
-    def feedback_callback(self, feedback_msg):
-        feedback = 1
 
 
 
@@ -71,7 +67,8 @@ class MotionGoHandler():
                     rclpy.spin(self.ros_handler)
                     print('[Get]  MotionGo result.')
                     if(self.ros_handler._ret == 1):
-                        os.write(fd, '1'.encode('utf-8'))
+                        self.result = '1' + ' '*9
+                        os.write(fd, self.result.encode('utf-8'))
                         print('[Sent]  MotionGo result.')
             except:
                 print('[ERROR]  MotionGo.')

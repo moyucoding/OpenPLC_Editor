@@ -26,7 +26,7 @@ class RobotEnableHandler():
                         print('Enabling')
                         print('[Get]  RobotEnable result.')
                         time.sleep(1)
-                        ret = '1'
+                        ret = 'y' + ' '*19
                         os.write(fd, ret.encode('utf-8'))
                         print('[Sent]  RobotEnable result.')
                     elif data_strs[1] == '0':
@@ -34,7 +34,7 @@ class RobotEnableHandler():
                         print('Disabling')
                         print('[Get]  RobotEnable result.')
                         time.sleep(1)
-                        ret = '1'
+                        ret = 'y' + ' '*19
                         os.write(fd, ret.encode('utf-8'))
                         print('[Sent]  RobotEnable result.')
             except:

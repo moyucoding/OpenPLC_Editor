@@ -35,9 +35,9 @@ FUNCTION_BLOCK ROBOTENABLE
         write(fd, buf, 20);
       }
     }
-    char buf[1];
-    int ret = read(fd, buf, 1);
-    if (ret > 0 && buf[0] == '1'){
+    char buf[20];
+    int ret = read(fd, buf, 20);
+    if (ret > 0 && buf[0] == 'y'){
       SetFbVar(VALID,true);
     }
     close(fd);
@@ -64,8 +64,8 @@ FUNCTION_BLOCK MOTIONGO
     }
     
     char buf[1];
-    int ret = read(fd, buf, 1);
-    if (buf[0] == '1'){
+    int ret = read(fd, buf, 10);
+    if (buf[0] == 'y'){
       SetFbVar(VALID,true);
     }
     close(fd);
@@ -93,8 +93,8 @@ FUNCTION_BLOCK GETCURJOINT
     int fd = open("/tmp/GetCurJoint.pipe",O_RDWR | O_NONBLOCK);
     if(enable){
       if(fd > 0){
-        char buf[20] = {"GetCurJoint;"};
-        write(fd, buf, 20);
+        char buf[200] = {"GetCurJoint;"};
+        write(fd, buf, 200);
       }
     }
     char buf[200];
@@ -154,8 +154,8 @@ FUNCTION_BLOCK GETCURSTATE
       }
     }
     
-    char buf[1];
-    int ret = read(fd, buf, 1);
+    char buf[20];
+    int ret = read(fd, buf, 20);
     if(ret > 0){
       int res =  buf[0] - 48;
       if(0 <= res && res <= 5){
@@ -662,6 +662,7 @@ FUNCTION_BLOCK JOGJOINTSELECTION
     IN_SPEED : REAL := 0.5;
   END_VAR
   VAR_OUTPUT
+    VALID : BOOL := False;
     INDEX : SINT := 0;
     OUT_SPEED : REAL := 0.0;
   END_VAR
@@ -732,6 +733,7 @@ FUNCTION_BLOCK JOGJOINTSELECTION
       forward = false;
     }
     if(count == 1){
+      SetFbVar(VALID,true);
       SetFbVar(INDEX, joint);
       if(forward){
         SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
@@ -741,6 +743,7 @@ FUNCTION_BLOCK JOGJOINTSELECTION
       }
     }
     else{
+      SetFbVar(VALID, false);
       SetFbVar(INDEX, 0);
       SetFbVar(OUT_SPEED, 0);
     }
@@ -758,6 +761,7 @@ FUNCTION_BLOCK JOGTYPESELECTION
     IN_SPEED : REAL := 0.5;
   END_VAR
   VAR_OUTPUT
+    VALID : BOOL := False;
     JOGTYPE : SINT := 0;
     OUT_SPEED : REAL := 0.0;
   END_VAR
@@ -798,6 +802,7 @@ FUNCTION_BLOCK JOGTYPESELECTION
       forward = false;
     }
     if(count == 1){
+      SetFbVar(VALID, true);
       SetFbVar(JOGTYPE, JOGTYPE);
       if(forward){
         SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
@@ -807,6 +812,7 @@ FUNCTION_BLOCK JOGTYPESELECTION
       }
     }
     else{
+      SetFbVar(VALID, false);
       SetFbVar(JOGTYPE, 0);
       SetFbVar(OUT_SPEED, 0);
     }

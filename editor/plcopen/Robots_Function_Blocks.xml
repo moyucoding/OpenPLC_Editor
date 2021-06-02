@@ -843,6 +843,14 @@
           </variable>
         </inputVars>
         <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[this is the output shows if input is legal]]></xhtml:p>
+            </documentation>
+          </variable>
           <variable name="INDEX">
             <type>
               <SINT/>
@@ -932,6 +940,14 @@
           </variable>
         </inputVars>
         <outputVars>
+          <variable name="VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[this is the output shows if input is legal]]></xhtml:p>
+            </documentation>
+          </variable>
           <variable name="JOGTYPE">
             <type>
               <SINT/>
