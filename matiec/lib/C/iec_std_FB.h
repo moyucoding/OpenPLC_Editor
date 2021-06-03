@@ -2299,7 +2299,7 @@ static void GETCURSTATE_body__(GETCURSTATE *data__) {
   }
   
   char buf[20];
-  int ret = read(fd, buf, 20;
+  int ret = read(fd, buf, 20）;
   if(ret > 0){
     int res =  buf[0] - 48;
     if(0 <= res && res <= 5){
