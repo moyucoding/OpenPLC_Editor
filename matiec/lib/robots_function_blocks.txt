@@ -750,7 +750,7 @@ FUNCTION_BLOCK JOGJOINTSELECTION
   }}
 END_FUNCTION_BLOCK
 
-FUNCTION_BLOCK JOGTYPESELECTION
+FUNCTION_BLOCK JOGLRSELECTION
   VAR_INPUT
     X_F : BOOL := False;
     X_R : BOOL := False;
@@ -758,52 +758,104 @@ FUNCTION_BLOCK JOGTYPESELECTION
     Y_R : BOOL := False;
     Z_F : BOOL := False;
     Z_R : BOOL := False;
+    RX_F : BOOL := False;
+    RX_R : BOOL := False;
+    RY_F : BOOL := False;
+    RY_R : BOOL := False;
+    RZ_F : BOOL := False;
+    RZ_R : BOOL := False;
     IN_SPEED : REAL := 0.5;
   END_VAR
   VAR_OUTPUT
-    VALID : BOOL := False;
-    JOGTYPE : SINT := 0;
+    L_VALID : BOOL := False;
+    L_JOGTYPE : SINT := 0;
+    R_VALID : BOOL := False;
+    R_JOGTYPE : SINT := 0;
     OUT_SPEED : REAL := 0.0;
   END_VAR
 
   {{
     int count = 0;
-    int JOGTYPE = 0;
+    int jogtype = 0;
     bool forward = true;
     
     if(GetFbVar(X_F)){
       count++;
-      JOGTYPE = 1;
+      jogtype = 1;
       forward = true;
     }
     if(GetFbVar(X_R)){
       count++;
-      JOGTYPE = 1;
+      jogtype = 1;
       forward = false;
     }
     if(GetFbVar(Y_F)){
       count++;
-      JOGTYPE = 2;
+      jogtype = 2;
       forward = true;
     }
     if(GetFbVar(Y_R)){
       count++;
-      JOGTYPE = 2;
+      jogtype = 2;
       forward = false;
     }
     if(GetFbVar(Z_F)){
       count++;
-      JOGTYPE = 3;
+      jogtype = 3;
       forward = true;
     }
     if(GetFbVar(Z_R)){
       count++;
-      JOGTYPE = 3;
+      jogtype = 3;
       forward = false;
     }
+    if(GetFbVar(RX_F)){
+      count++;
+      jogtype = 4;
+      forward = true;
+    }
+    if(GetFbVar(RX_R)){
+      count++;
+      jogtype = 4;
+      forward = false;
+    }
+    if(GetFbVar(RY_F)){
+      count++;
+      jogtype = 5;
+      forward = true;
+    }
+    if(GetFbVar(RY_R)){
+      count++;
+      jogtype = 5;
+      forward = false;
+    }
+    if(GetFbVar(RZ_F)){
+      count++;
+      jogtype = 6;
+      forward = true;
+    }
+    if(GetFbVar(RZ_R)){
+      count++;
+      jogtype = 6;
+      forward = false;
+    }
+    
     if(count == 1){
-      SetFbVar(VALID, true);
-      SetFbVar(JOGTYPE, JOGTYPE);
+      if(jogtype > 3){
+        //Rotation
+        SetFbVar(L_VALID, false);
+        SetFbVar(L_JOGTYPE, 0);
+        SetFbVar(R_VALID, true);
+        SetFbVar(R_JOGTYPE, jogtype - 3);
+      }
+      else{
+        //Linear
+        SetFbVar(L_VALID, true);
+        SetFbVar(L_JOGTYPE, jogtype);
+        SetFbVar(R_VALID, false);
+        SetFbVar(R_JOGTYPE, 0);
+      }
+      
       if(forward){
         SetFbVar(OUT_SPEED, GetFbVar(IN_SPEED));
       }
@@ -812,8 +864,10 @@ FUNCTION_BLOCK JOGTYPESELECTION
       }
     }
     else{
-      SetFbVar(VALID, false);
-      SetFbVar(JOGTYPE, 0);
+      SetFbVar(L_VALID, false);
+      SetFbVar(L_JOGTYPE, 0);
+      SetFbVar(R_VALID, false);
+      SetFbVar(R_JOGTYPE, 0);
       SetFbVar(OUT_SPEED, 0);
     }
   }}

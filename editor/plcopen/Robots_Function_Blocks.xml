@@ -879,7 +879,7 @@
       </documentation>
     </pou>
 
-    <pou name="JogTypeSelection" pouType="functionBlock">
+    <pou name="JogLRSelection" pouType="functionBlock">
       <interface>
         <inputVars>
           <variable name="X_F">
@@ -887,7 +887,7 @@
               <BOOL/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[This is the input of moving forward of X/RX]]></xhtml:p>
+              <xhtml:p><![CDATA[This is the input of moving forward along X-axis]]></xhtml:p>
             </documentation>
           </variable>
           <variable name="X_R">
@@ -895,7 +895,7 @@
               <BOOL/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[This is the input of moving backword of X/RX]]></xhtml:p>
+              <xhtml:p><![CDATA[This is the input of moving backward along X-axis]]></xhtml:p>
             </documentation>
           </variable>
           <variable name="Y_F">
@@ -903,7 +903,7 @@
               <BOOL/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[This is the input of moving forward of Y/RY]]></xhtml:p>
+              <xhtml:p><![CDATA[This is the input of moving forward along Y-axis]]></xhtml:p>
             </documentation>
           </variable>
           <variable name="Y_R">
@@ -911,7 +911,7 @@
               <BOOL/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[This is the input of moving backword of Y/RY]]></xhtml:p>
+              <xhtml:p><![CDATA[This is the input of moving backword along Y-axis]]></xhtml:p>
             </documentation>
           </variable>
           <variable name="Z_F">
@@ -919,7 +919,7 @@
               <BOOL/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[This is the input of moving forward of Z/RZ]]></xhtml:p>
+              <xhtml:p><![CDATA[This is the input of moving forward along Z-axis]]></xhtml:p>
             </documentation>
           </variable>
           <variable name="Z_R">
@@ -927,7 +927,55 @@
               <BOOL/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[This is the input of moving backword of Z/RZ]]></xhtml:p>
+              <xhtml:p><![CDATA[This is the input of moving backword along Z-axis]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="RX_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of rotating forward around X-axis]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="RX_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of rotating backward around X-axis]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="RY_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of rotating forward around Y-axis]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="RY_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of rotating backward around Y-axis]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="RZ_F">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of rotating forward around Z-axis]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="RZ_R">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the input of rotating backward around X-axis]]></xhtml:p>
             </documentation>
           </variable>
           <variable name="IN_SPEED">
@@ -940,20 +988,36 @@
           </variable>
         </inputVars>
         <outputVars>
-          <variable name="VALID">
+          <variable name="L_VALID">
             <type>
               <BOOL/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[this is the output shows if input is legal]]></xhtml:p>
+              <xhtml:p><![CDATA[this is the output shows if input of MoveJogLinear is legal]]></xhtml:p>
             </documentation>
           </variable>
-          <variable name="JOGTYPE">
+          <variable name="L_JOGTYPE">
             <type>
               <SINT/>
             </type>
       <documentation>
-              <xhtml:p><![CDATA[This is the input of the jog type]]></xhtml:p>
+              <xhtml:p><![CDATA[This is the output of MoveJogLinear jogtype]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="R_VALID">
+            <type>
+              <BOOL/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[this is the output shows if input of MoveJogRotation is legal]]></xhtml:p>
+            </documentation>
+          </variable>
+          <variable name="R_JOGTYPE">
+            <type>
+              <SINT/>
+            </type>
+      <documentation>
+              <xhtml:p><![CDATA[This is the output of MoveJogRotation jogtype]]></xhtml:p>
             </documentation>
           </variable>
           <variable name="OUT_SPEED">
