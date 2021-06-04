@@ -29,7 +29,7 @@ class GetCurStateHandler():
         super().__init__()
         self.pipe_path = path
         self.interval = interval
-
+        self.ros_handler = GetCurStateClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -45,10 +45,8 @@ class GetCurStateHandler():
                     print('[Get]  GetCurState request.')
                     try:
                         #ROS
-                        rclpy.init()
-                        self.ros_handler = GetCurStateClient()
                         rclpy.spin_once(self.ros_handler)   
-                        rclpy.shutdown()                 
+                        
                         print('[Get]  GetCurState result.')
 
                         #Get data from ROS topic

@@ -29,6 +29,7 @@ class MoveJogRotationHandler():
         self.interval = interval
         self.request = ''
         self.count = 0
+        self.ros_handler = MoveJogRotationActionClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -49,11 +50,9 @@ class MoveJogRotationHandler():
             goal.load[i] = load[i]
         
         goal.speed = float(msg[2])
-
-        rclpy.init()
-        self.ros_handler = MoveJogRotationActionClient()
+        
         self.ros_handler.send_goal(goal)
-        rclpy.shutdown()
+
         self.count += 1
 
     def runHandler(self):

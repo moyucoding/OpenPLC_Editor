@@ -51,7 +51,7 @@ class MoveAbsJointHandler():
         self.pipe_path = path
         self.interval = interval
         self.ret = ' '
-
+        self.ros_handler = MoveAbsJointActionClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -88,11 +88,9 @@ class MoveAbsJointHandler():
 
                         goal.speed = float(msg[3])
                         goal.zone = float(msg[4])
-                        
-                        rclpy.init()
-                        self.ros_handler = MoveAbsJointActionClient()
+                             
                         self.ros_handler.send_goal(goal)
-                        rclpy.spin(self.ros_handler)
+                        rclpy.spin_once(self.ros_handler)
                         
                         print('[Get]  MoveAbsJoint result.')
                         print('[Sent]  MoveAbsJoint result.')

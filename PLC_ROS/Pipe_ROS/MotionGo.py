@@ -47,7 +47,7 @@ class MotionGoHandler():
         #super().__init__()
         self.pipe_path = path
         self.result = ''
-        
+        self.ros_handler = MotionGoActionClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -61,10 +61,10 @@ class MotionGoHandler():
                 data = os.read(fd, 10)
                 if data.decode('utf-8').split(';')[0] == 'MotionGo':
                     print('[Get]  MotionGo request.')
-                    rclpy.init()
-                    self.ros_handler = MotionGoActionClient()
+
                     self.ros_handler.send_goal()
-                    rclpy.spin(self.ros_handler)
+                    rclpy.spin_once(self.ros_handler)
+                    
                     print('[Get]  MotionGo result.')
                     if(self.ros_handler._ret == 1):
                         self.result = '1' + ' '*9

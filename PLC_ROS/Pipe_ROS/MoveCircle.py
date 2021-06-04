@@ -51,7 +51,7 @@ class MoveCircleHandler():
         self.pipe_path = path
         self.interval = interval
         self.ret = ' '
-
+        self.ros_handler = MoveCircleActionClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -94,10 +94,8 @@ class MoveCircleHandler():
                         goal.speed = float(msg[5])
                         goal.zone = float(msg[6])
                         
-                        rclpy.init()
-                        self.ros_handler = MoveCircleActionClient()
                         self.ros_handler.send_goal(goal)
-                        rclpy.spin(self.ros_handler)
+                        rclpy.spin_once(self.ros_handler)
                         
                         print('[Get]  MoveCircle result.')
                         print('[Sent]  MoveCircle result.')

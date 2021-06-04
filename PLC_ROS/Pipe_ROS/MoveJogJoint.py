@@ -29,6 +29,8 @@ class MoveJogJointHandler():
         self.interval = interval
         self.request = ''
         self.count = 0
+        self.ros_handler = MoveJogJointActionClient()
+
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -48,7 +50,6 @@ class MoveJogJointHandler():
         
         goal.speed = float(msg[2])
         
-        self.ros_handler = MoveJogJointActionClient()
         self.ros_handler.send_goal(goal)
         
         self.count += 1
@@ -56,7 +57,6 @@ class MoveJogJointHandler():
     def runHandler(self):
         fd = os.open(self.pipe_path, os.O_CREAT | os.O_RDWR)
         count = 0
-        rclpy.init()
         while True:
             try:
                 data = os.read(fd, 200)

@@ -51,7 +51,7 @@ class MoveLinearHandler():
         self.pipe_path = path
         self.interval = interval
         self.ret = ' '
-
+        self.ros_handler = MoveLinearActionClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -85,11 +85,9 @@ class MoveLinearHandler():
                             
                         goal.speed = float(msg[3])
                         goal.zone = float(msg[4])
-                        
-                        rclpy.init()
-                        self.ros_handler = MoveLinearActionClient()
+
                         self.ros_handler.send_goal(goal)
-                        rclpy.spin(self.ros_handler)
+                        rclpy.spin_once(self.ros_handler)
                         
                         print('[Get]  MoveLinear result.')
                         print('[Sent]  MoveLinear result.')

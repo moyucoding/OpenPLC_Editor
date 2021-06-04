@@ -29,7 +29,7 @@ class GetCurJointHandler():
         super().__init__()
         self.pipe_path = path
         self.interval = interval
-
+        self.ros_handler = GetCurJointClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -45,10 +45,9 @@ class GetCurJointHandler():
                     print('[Get]  GetCurJoint request.')
                     try:
                         #ROS
-                        rclpy.init()
-                        self.ros_handler = GetCurJointClient()
-                        rclpy.spin_once(self.ros_handler)   
-                        rclpy.shutdown()                 
+
+                        rclpy.spin_once(self.ros_handler) 
+
                         print('[Get]  GetCurJoint result.')
 
                         #Get data from ROS topic

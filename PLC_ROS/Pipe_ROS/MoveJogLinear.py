@@ -29,6 +29,7 @@ class MoveJogLinearHandler():
         self.interval = interval
         self.request = ''
         self.count = 0
+        self.ros_handler = MoveJogLinearActionClient()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
@@ -50,10 +51,8 @@ class MoveJogLinearHandler():
         
         goal.speed = float(msg[2])
         
-        rclpy.init()
-        self.ros_handler = MoveJogLinearActionClient()
         self.ros_handler.send_goal(goal)
-        rclpy.shutdown()
+
         self.count += 1
 
     def runHandler(self):

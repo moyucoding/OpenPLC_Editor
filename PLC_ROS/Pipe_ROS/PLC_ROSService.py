@@ -1,5 +1,6 @@
 import threading
 
+import rclpy
 import MotionGo
 import GetCurJoint
 import MoveAbsJoint
@@ -68,4 +69,8 @@ def main(interval):
 
 if __name__ == '__main__':
     interval = 0.02
-    main(interval)
+    try:
+        rclpy.init()
+        main(interval)
+    except:
+        rclpy.shutdown()
