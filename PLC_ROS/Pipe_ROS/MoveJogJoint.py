@@ -48,15 +48,15 @@ class MoveJogJointHandler():
         
         goal.speed = float(msg[2])
         
-        rclpy.init()
         self.ros_handler = MoveJogJointActionClient()
         self.ros_handler.send_goal(goal)
-        rclpy.shutdown()
+        
         self.count += 1
 
     def runHandler(self):
         fd = os.open(self.pipe_path, os.O_CREAT | os.O_RDWR)
         count = 0
+        rclpy.init()
         while True:
             try:
                 data = os.read(fd, 200)
