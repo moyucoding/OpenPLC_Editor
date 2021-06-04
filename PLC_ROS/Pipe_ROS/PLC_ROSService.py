@@ -22,7 +22,7 @@ def main(interval):
     thread_MotionGo.start()
 
     GetCurJoint_Pipepath = '/tmp/GetCurJoint.pipe'
-    handler_GetCurJoint = GetCurJoint.GetCurJointHandler(GetCurJoint_Pipepath)
+    handler_GetCurJoint = GetCurJoint.GetCurJointHandler(GetCurJoint_Pipepath, interval)
     thread_GetCurJoint = threading.Thread(target = handler_GetCurJoint.runHandler)
     thread_GetCurJoint.start()
 
