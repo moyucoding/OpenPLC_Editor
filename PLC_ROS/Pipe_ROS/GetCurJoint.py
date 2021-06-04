@@ -25,9 +25,10 @@ class GetCurJointClient(Node):
 
 
 class GetCurJointHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.interval = interval
 
         try:
             os.mkfifo(self.pipe_path)
@@ -70,4 +71,4 @@ class GetCurJointHandler():
                     
             except:
                 print('[Error]  GetCurJoint')
-            time.sleep(0.1)
+            time.sleep(self.interval/2)

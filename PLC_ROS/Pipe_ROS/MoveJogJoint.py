@@ -1,5 +1,6 @@
 import os
 import time
+import threading
 
 import rclpy
 from rclpy.node import Node
@@ -16,53 +17,55 @@ class MoveJogJointActionClient(Node):
 
     def send_goal(self, goal_msg):
         self._action_client.wait_for_server()
-        self._send_goal_future = self._action_client.send_goal_async(
-            goal_msg, feedback_callback=self.feedback_callback)
-
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         
 
 
 
-
 class MoveJogJointHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
-
+        self.interval = interval
+        self.request = ''
+        self.count = 0
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
             print('[Error]  MoveJogJoint: Making Pipe: ',self.pipe_path,'.')
     
+    def requestHandler(self):
+        msg = self.request.split(';')[1:-1]
+        #Create a goal
+        goal = MotionJogJoint.Goal()
+        goal.id = 1
+        goal.index = int(msg[0])
+
+        load = [float(x) for x in msg[1].split(',')[:]]
+        goal.load = [0.0] * 10
+        for i in range(len(load)):
+            goal.load[i] = load[i]
+        
+        goal.speed = float(msg[2])
+        
+        rclpy.init()
+        self.ros_handler = MoveJogJointActionClient()
+        self.ros_handler.send_goal(goal)
+        rclpy.shutdown()
+        self.count += 1
+
     def runHandler(self):
         fd = os.open(self.pipe_path, os.O_CREAT | os.O_RDWR)
+        count = 0
         while True:
             try:
                 data = os.read(fd, 200)
                 if data.decode('utf-8').split(';')[0] == 'MoveJogJoint':
-                    print('[Get]  MoveJogJoint request.')
-
-                    request = data.decode('utf-8')
-                    msg = request.split(';')[1:-1]
-                    #Create a goal
-                    goal = MotionJogJoint.Goal()
-                    goal.id = 1
-                    goal.index = int(msg[0])
-
-                    load = [float(x) for x in msg[1].split(',')[:]]
-                    goal.load = [0.0] * 10
-                    for i in range(len(load)):
-                        goal.load[i] = load[i]
-                    
-                    goal.speed = float(msg[2])
-                    
-                    rclpy.init()
-                    self.ros_handler = MoveJogJointActionClient()
-                    self.ros_handler.send_goal(goal)
-                    rclpy.shutdown()
-                    print('[Sent]  MoveJogJoint request.')
-
+                    count += 1
+                    print('[Get]  MoveJogJoint request.  Get:',count, ' Sent:',self.count)
+                    self.request = data.decode('utf-8')
+                    thread_requestHandeler = threading.Thread(target=self.requestHandler)
+                    thread_requestHandeler.start()
             except:
                 print('[Error]  MoveJogJoint')
-            time.sleep(0.01)
+            time.sleep(self.interval/2)

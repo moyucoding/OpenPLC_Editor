@@ -25,9 +25,10 @@ class GetCurStateClient(Node):
 
 
 class GetCurStateHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.interval = interval
 
         try:
             os.mkfifo(self.pipe_path)
@@ -62,4 +63,4 @@ class GetCurStateHandler():
                     
             except:
                 print('[Error]  GetCurState')
-            time.sleep(0.1)
+            time.sleep(self.interval/2)

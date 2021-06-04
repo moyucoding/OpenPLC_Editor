@@ -47,17 +47,17 @@ def main(interval):
     thread_MoveCircle.start()
 
     MoveJogJoint_Pipepath = '/tmp/MoveJogJoint.pipe'
-    handler_MoveJogJoint = MoveJogJoint.MoveJogJointHandler(MoveJogJoint_Pipepath)
+    handler_MoveJogJoint = MoveJogJoint.MoveJogJointHandler(MoveJogJoint_Pipepath, interval)
     thread_MoveJogJoint = threading.Thread(target = handler_MoveJogJoint.runHandler)
     thread_MoveJogJoint.start()
 
     MoveJogLinear_Pipepath = '/tmp/MoveJogLinear.pipe'
-    handler_MoveJogLinear = MoveJogLinear.MoveJogLinearHandler(MoveJogLinear_Pipepath)
+    handler_MoveJogLinear = MoveJogLinear.MoveJogLinearHandler(MoveJogLinear_Pipepath, interval)
     thread_MoveJogLinear = threading.Thread(target = handler_MoveJogLinear.runHandler)
     thread_MoveJogLinear.start()
 
     MoveJogRotation_Pipepath = '/tmp/MoveJogRotation.pipe'
-    handler_MoveJogRotation = MoveJogRotation.MoveJogRotationHandler(MoveJogRotation_Pipepath)
+    handler_MoveJogRotation = MoveJogRotation.MoveJogRotationHandler(MoveJogRotation_Pipepath, interval)
     thread_MoveJogRotation = threading.Thread(target = handler_MoveJogRotation.runHandler)
     thread_MoveJogRotation.start()
     
