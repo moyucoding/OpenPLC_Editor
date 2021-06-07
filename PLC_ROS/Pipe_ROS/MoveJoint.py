@@ -10,15 +10,12 @@ class MoveJointActionClient(Node):
 
     def __init__(self):
         super().__init__('MotionMoveJoint')
-        
         self._action_client = ActionClient(self, MotionMoveJoint, 'Motion/MoveJoint')
         self._ret = 0
 
     def send_goal(self, goal_msg):
         self._action_client.wait_for_server()
-        self._send_goal_future = self._action_client.send_goal_async(
-            goal_msg, feedback_callback=self.feedback_callback)
-
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
@@ -33,16 +30,8 @@ class MoveJointActionClient(Node):
 
     def get_result_callback(self, future):
         result = future.result().result
-        #self.get_logger().info('Get Result :(')
         self.get_logger().info('Result: {0}'.format(result.ret))
         self._ret = int(result.ret)
-        rclpy.shutdown()
-
-    def feedback_callback(self, feedback_msg):
-        feedback = feedback_msg.feedback
-        #self.get_logger().info('Received feedback: {0}'.format(feedback.cnt))
-
-
 
 
 class MoveJointHandler():
@@ -50,7 +39,7 @@ class MoveJointHandler():
         super().__init__()
         self.pipe_path = path
         self.interval = interval
-        self.ret = ' '
+        self.result = ' '
         self.ros_handler = MoveJointActionClient()
         try:
             os.mkfifo(self.pipe_path)
@@ -91,17 +80,20 @@ class MoveJointHandler():
                         rclpy.spin_once(self.ros_handler)
                         
                         print('[Get]  MoveJoint result.')
-                        print('[Sent]  MoveJoint result.')
                         if self.ros_handler._ret:
-                            self.ret = 'y' + ' '*399
+                            self.result = 'y' + ' '*399
                         else:
-                            self.ret = 'n1'+' '*398
-                        os.write(fd,self.ret.encode('utf-8'))
+                            self.result = 'n1'+' '*398
+                        os.write(fd,self.result.encode('utf-8'))
+                        print('[Sent]  MoveJoint result.')
                         time.sleep(self.interval)
                     except:
-                        self.ret = 'n1'+' '*398
+                        self.result = 'n1'+' '*398
                         os.write(fd,self.encode('utf-8'))
                         time.sleep(self.interval)
+                        rclpy.shutdown()
+                        rclpy.init()
+                        self.ros_handler = MoveJointActionClient()
             except:
-                print('[Error]  MoveJoint')
+                print('[Error]  MoveJoint.')
             time.sleep(self.interval/2)

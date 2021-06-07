@@ -10,15 +10,12 @@ class MoveAbsJointActionClient(Node):
 
     def __init__(self):
         super().__init__('MotionMoveAbsJoint')
-        
         self._action_client = ActionClient(self, MotionMoveAbsJoint, 'Motion/MoveAbsJoint')
         self._ret = 0
 
     def send_goal(self, goal_msg):
         self._action_client.wait_for_server()
-        self._send_goal_future = self._action_client.send_goal_async(
-            goal_msg, feedback_callback=self.feedback_callback)
-
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
@@ -33,16 +30,8 @@ class MoveAbsJointActionClient(Node):
 
     def get_result_callback(self, future):
         result = future.result().result
-        #self.get_logger().info('Get Result :(')
         self.get_logger().info('Result: {0}'.format(result.ret))
-        self._ret = int(result.ret)
-        rclpy.shutdown()
-
-    def feedback_callback(self, feedback_msg):
-        feedback = feedback_msg.feedback
-        #self.get_logger().info('Received feedback: {0}'.format(feedback.cnt))
-
-
+        self.result = int(result.ret)
 
 
 class MoveAbsJointHandler():
@@ -50,7 +39,7 @@ class MoveAbsJointHandler():
         super().__init__()
         self.pipe_path = path
         self.interval = interval
-        self.ret = ' '
+        self.result = ' '
         self.ros_handler = MoveAbsJointActionClient()
         try:
             os.mkfifo(self.pipe_path)
@@ -93,17 +82,20 @@ class MoveAbsJointHandler():
                         rclpy.spin_once(self.ros_handler)
                         
                         print('[Get]  MoveAbsJoint result.')
-                        print('[Sent]  MoveAbsJoint result.')
                         if self.ros_handler._ret:
                             self.ret = 'y' + ' '*399
                         else:
                             self.ret = 'n1'+' '*398
                         os.write(fd,self.ret.encode('utf-8'))
+                        print('[Sent]  MoveAbsJoint result.')
                         time.sleep(self.interval)
                     except:
                         self.ret = 'n1'+' '*398
                         os.write(fd,self.encode('utf-8'))
                         time.sleep(self.interval)
+                        rclpy.shutdown()
+                        rclpy.init()
+                        self.ros_handler = MoveAbsJointActionClient()
             except:
-                print('[Error]  MoveAbsJoint')
+                print('[Error]  MoveAbsJoint.')
             time.sleep(self.interval/2)

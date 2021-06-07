@@ -11,15 +11,12 @@ class MoveJogRotationActionClient(Node):
 
     def __init__(self):
         super().__init__('MotionMoveJogRotation')
-        
         self._action_client = ActionClient(self, MotionJogRotation, 'Motion/MoveJogRotation')
         self._ret = 0
 
     def send_goal(self, goal_msg):
         self._action_client.wait_for_server()
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
-
-
 
 
 class MoveJogRotationHandler():
@@ -50,9 +47,12 @@ class MoveJogRotationHandler():
             goal.load[i] = load[i]
         
         goal.speed = float(msg[2])
-        
-        self.ros_handler.send_goal(goal)
-
+        try:
+            self.ros_handler.send_goal(goal)
+        except:
+            rclpy.shutdown()
+            rclpy.init()
+            self.ros_handler = MoveJogRotationActionClient()
         self.count += 1
 
     def runHandler(self):
@@ -68,5 +68,5 @@ class MoveJogRotationHandler():
                     thread_requestHandeler = threading.Thread(target=self.requestHandler)
                     thread_requestHandeler.start()
             except:
-                print('[Error]  MoveJogRotation')
+                print('[Error]  MoveJogRotation.')
             time.sleep(self.interval/2)

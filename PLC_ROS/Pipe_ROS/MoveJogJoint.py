@@ -11,7 +11,6 @@ class MoveJogJointActionClient(Node):
 
     def __init__(self):
         super().__init__('MotionMoveJogJoint')
-        
         self._action_client = ActionClient(self, MotionJogJoint, 'Motion/MoveJogJoint')
         self._ret = 0
 
@@ -19,8 +18,6 @@ class MoveJogJointActionClient(Node):
         self._action_client.wait_for_server()
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         
-
-
 
 class MoveJogJointHandler():
     def __init__(self, path, interval) -> None:
@@ -49,9 +46,12 @@ class MoveJogJointHandler():
             goal.load[i] = load[i]
         
         goal.speed = float(msg[2])
-        
-        self.ros_handler.send_goal(goal)
-        
+        try:
+            self.ros_handler.send_goal(goal)
+        except:
+            rclpy.shutdown()
+            rclpy.init()
+            self.ros_handler = MoveJogJointActionClient()
         self.count += 1
 
     def runHandler(self):
@@ -67,5 +67,5 @@ class MoveJogJointHandler():
                     thread_requestHandeler = threading.Thread(target=self.requestHandler)
                     thread_requestHandeler.start()
             except:
-                print('[Error]  MoveJogJoint')
+                print('[Error]  MoveJogJoint.')
             time.sleep(self.interval/2)

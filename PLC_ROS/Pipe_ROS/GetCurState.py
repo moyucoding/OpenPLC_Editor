@@ -28,6 +28,7 @@ class GetCurStateHandler():
     def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.result = ' '
         self.interval = interval
         self.ros_handler = GetCurStateClient()
         try:
@@ -48,15 +49,18 @@ class GetCurStateHandler():
                         rclpy.spin_once(self.ros_handler)   
                         
                         print('[Get]  GetCurState result.')
-
                         #Get data from ROS topic
                         #Valid
-                        state = str(int(self.ros_handler.state)) + ' '*19
-                        os.write(fd, state.encode('utf-8'))
+                        self.result = str(int(self.ros_handler.state)) + ' '*20
+                        self.result = self.result[:20]
+                        os.write(fd, self.result.encode('utf-8'))
                     except:
                         #Error
-                        a=1
-                    
+                        self.result = str(int(-2)) + ' '*18
+                        os.write(fd, self.result.encode('utf-8'))
+                        rclpy.shutdown()
+                        rclpy.init()
+                        self.ros_handler = GetCurStateClient()
                     print('[Sent]  GetCurState result.')
                     
             except:

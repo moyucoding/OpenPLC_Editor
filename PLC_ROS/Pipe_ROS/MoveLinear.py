@@ -10,15 +10,12 @@ class MoveLinearActionClient(Node):
 
     def __init__(self):
         super().__init__('MotionMoveLinear')
-        
         self._action_client = ActionClient(self, MotionMoveLinear, 'Motion/MoveLinear')
         self._ret = 0
 
     def send_goal(self, goal_msg):
         self._action_client.wait_for_server()
-        self._send_goal_future = self._action_client.send_goal_async(
-            goal_msg, feedback_callback=self.feedback_callback)
-
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
@@ -33,24 +30,15 @@ class MoveLinearActionClient(Node):
 
     def get_result_callback(self, future):
         result = future.result().result
-        #self.get_logger().info('Get Result :(')
         self.get_logger().info('Result: {0}'.format(result.ret))
         self._ret = int(result.ret)
-        rclpy.shutdown()
-
-    def feedback_callback(self, feedback_msg):
-        feedback = feedback_msg.feedback
-        #self.get_logger().info('Received feedback: {0}'.format(feedback.cnt))
-
-
-
 
 class MoveLinearHandler():
     def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
         self.interval = interval
-        self.ret = ' '
+        self.result = ' '
         self.ros_handler = MoveLinearActionClient()
         try:
             os.mkfifo(self.pipe_path)
@@ -90,17 +78,20 @@ class MoveLinearHandler():
                         rclpy.spin_once(self.ros_handler)
                         
                         print('[Get]  MoveLinear result.')
-                        print('[Sent]  MoveLinear result.')
                         if self.ros_handler._ret:
-                            self.ret = 'y' + ' '*399
+                            self.result = 'y' + ' '*399
                         else:
-                            self.ret = 'n1'+' '*398
-                        os.write(fd,self.ret.encode('utf-8'))
+                            self.result = 'n1'+' '*398
+                        os.write(fd,self.result.encode('utf-8'))
+                        print('[Sent]  MoveLinear result.')
                         time.sleep(self.interval)
                     except:
-                        self.ret = 'n1'+' '*398
+                        self.result = 'n1'+' '*398
                         os.write(fd,self.encode('utf-8'))
                         time.sleep(self.interval)
+                        rclpy.shutdown()
+                        rclpy.init()
+                        self.ros_handler = MoveLinearActionClient()
             except:
-                print('[Error]  MoveLinear')
+                print('[Error]  MoveLinear.')
             time.sleep(self.interval/2)

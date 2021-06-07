@@ -11,15 +11,12 @@ class MoveJogLinearActionClient(Node):
 
     def __init__(self):
         super().__init__('MotionMoveJogLinear')
-        
         self._action_client = ActionClient(self, MotionJogLinear, 'Motion/MoveJogLinear')
         self._ret = 0
 
     def send_goal(self, goal_msg):
         self._action_client.wait_for_server()
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
-
-
 
 
 class MoveJogLinearHandler():
@@ -50,9 +47,12 @@ class MoveJogLinearHandler():
             goal.load[i] = load[i]
         
         goal.speed = float(msg[2])
-        
-        self.ros_handler.send_goal(goal)
-
+        try:
+            self.ros_handler.send_goal(goal)
+        except:
+            rclpy.shutdown()
+            rclpy.init()
+            self.ros_handler = MoveJogLinearActionClient()
         self.count += 1
 
     def runHandler(self):
@@ -68,5 +68,5 @@ class MoveJogLinearHandler():
                     thread_requestHandeler = threading.Thread(target=self.requestHandler)
                     thread_requestHandeler.start()
             except:
-                print('[Error]  MoveJogLinear')
+                print('[Error]  MoveJogLinear.')
             time.sleep(self.interval/2)

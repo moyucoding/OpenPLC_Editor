@@ -28,6 +28,7 @@ class GetCurJointHandler():
     def __init__(self, path, interval) -> None:
         super().__init__()
         self.pipe_path = path
+        self.result = ' '
         self.interval = interval
         self.ros_handler = GetCurJointClient()
         try:
@@ -45,11 +46,8 @@ class GetCurJointHandler():
                     print('[Get]  GetCurJoint request.')
                     try:
                         #ROS
-
                         rclpy.spin_once(self.ros_handler) 
-
                         print('[Get]  GetCurJoint result.')
-
                         #Get data from ROS topic
                         #Valid
                         joint = [round(float(x),2) for x in self.ros_handler._joint]
@@ -57,14 +55,17 @@ class GetCurJointHandler():
                         extjoint = [round(float(x),2) for x in self.ros_handler._extjoint]
                         extjoint = [str(x) for x in extjoint]
 
-                        validcode = 'y' + ','.join(joint) + ';' + ','.join(extjoint) + ';'
-                        validcode += ' '*(200-len(validcode))
-                        os.write(fd, validcode.encode('utf-8'))
+                        self.result = 'y' + ','.join(joint) + ';' + ','.join(extjoint) + ';' + ' '*200
+                        self.result = self.result[:200]
+                        os.write(fd, self.result.encode('utf-8'))
                     except:
                         #Error
-                        errorcode = 'n1'
-                        errorcode  += ' '*(200-len(errorcode))
-                        os.write(fd, errorcode.encode('utf-8'))
+                        self.result = 'n1' +' '*200
+                        self.result = self.result[:200]
+                        os.write(fd, self.result.encode('utf-8'))
+                        rclpy.shutdown()
+                        rclpy.init()
+                        self.ros_handler = GetCurJointClient()
                     
                     print('[Sent]  GetCurJoint result.')
                     

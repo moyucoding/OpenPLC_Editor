@@ -6,7 +6,6 @@ from rclpy.action import ActionClient
 from rclpy.node import Node
 from motion.action import MotionGo
 
-
 class MotionGoActionClient(Node):
 
     def __init__(self):
@@ -17,9 +16,7 @@ class MotionGoActionClient(Node):
     def send_goal(self):
         goal_msg = MotionGo.Goal()
         self._action_client.wait_for_server()
-        self._send_goal_future = self._action_client.send_goal_async(
-            goal_msg)
-
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
@@ -36,17 +33,14 @@ class MotionGoActionClient(Node):
         result = future.result().result
         self.get_logger().info('Result: {0}'.format(result.ret))
         self._ret = result.ret
-        rclpy.shutdown()
-
-
-
 
 
 class MotionGoHandler():
-    def __init__(self, path) -> None:
+    def __init__(self, path, interval) -> None:
         #super().__init__()
         self.pipe_path = path
         self.result = ''
+        self.interval = interval
         self.ros_handler = MotionGoActionClient()
         try:
             os.mkfifo(self.pipe_path)
@@ -71,9 +65,11 @@ class MotionGoHandler():
                         os.write(fd, self.result.encode('utf-8'))
                         print('[Sent]  MotionGo result.')
             except:
-                print('[ERROR]  MotionGo.')
+                print('[Error]  MotionGo.')
                 rclpy.shutdown()
+                rclpy.init()
+                self.ros_handler = MotionGoActionClient()
 
-            time.sleep(0.01)
+            time.sleep(self.interval/2)
 
 

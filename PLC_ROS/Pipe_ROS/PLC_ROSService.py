@@ -18,7 +18,7 @@ def main(interval):
 
     
     MotionGo_Pipepath = '/tmp/MotionGo.pipe'
-    handler_MotionGo = MotionGo.MotionGoHandler(MotionGo_Pipepath)
+    handler_MotionGo = MotionGo.MotionGoHandler(MotionGo_Pipepath, interval)
     thread_MotionGo = threading.Thread(target = handler_MotionGo.runHandler)
     thread_MotionGo.start()
 
@@ -74,3 +74,4 @@ if __name__ == '__main__':
         main(interval)
     except:
         rclpy.shutdown()
+        rclpy.init()
