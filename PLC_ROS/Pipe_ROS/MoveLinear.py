@@ -32,6 +32,8 @@ class MoveLinearActionClient(Node):
         result = future.result().result
         self.get_logger().info('Result: {0}'.format(result.ret))
         self._ret = int(result.ret)
+        rclpy.shutdown()
+
 
 class MoveLinearHandler():
     def __init__(self, path, interval) -> None:
@@ -39,12 +41,30 @@ class MoveLinearHandler():
         self.pipe_path = path
         self.interval = interval
         self.result = ' '
-        self.ros_handler = MoveLinearActionClient()
+
+        self.goal = MotionMoveLinear.Goal()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
             print('[Error]  MoveLinear: Making Pipe: ',self.pipe_path,'.')
     
+    def requestHandler(self):
+        ros_ret = 0
+        while ros_ret == 0:
+            try:
+                rclpy.init()
+            except:
+                a = 1
+            self.ros_handler = MoveLinearActionClient()
+            self.ros_handler.send_goal(self.goal)
+            rclpy.spin_once(self.ros_handler)
+            ros_ret = self.ros_handler._ret
+            print('[Get]  MoveLinear result.')
+        if ros_ret:
+            self.result = 'y' + ' '*399
+        else:
+            self.result = 'n1'+' '*398
+
     def runHandler(self):
         fd = os.open(self.pipe_path, os.O_CREAT | os.O_RDWR)
         while True:
@@ -58,6 +78,7 @@ class MoveLinearHandler():
                         #Create a goal
                         goal = MotionMoveLinear.Goal()
                         goal.id = 1
+                        goal.user = [1.0] + [0.0] * 6
                         goal.tool = [0.0] * 7
                         goal.topoint = [float(x) for x in msg[0].split(',')[:]]
 
@@ -67,31 +88,20 @@ class MoveLinearHandler():
                             goal.extjoint[i] = extjoint[i]
 
                         load = [float(x) for x in msg[2].split(',')[:]]
-                        goal.joint = [0.0] * 10
+                        goal.load = [0.0] * 10
                         for i in range(len(load)):
                             goal.load[i] = load[i]
                             
                         goal.speed = float(msg[3])
                         goal.zone = float(msg[4])
 
-                        self.ros_handler.send_goal(goal)
-                        rclpy.spin_once(self.ros_handler)
-                        
-                        print('[Get]  MoveLinear result.')
-                        if self.ros_handler._ret:
-                            self.result = 'y' + ' '*399
-                        else:
-                            self.result = 'n1'+' '*398
+                        self.requestHandler()
+
                         os.write(fd,self.result.encode('utf-8'))
                         print('[Sent]  MoveLinear result.')
                         time.sleep(self.interval)
                     except:
-                        self.result = 'n1'+' '*398
-                        os.write(fd,self.encode('utf-8'))
                         time.sleep(self.interval)
-                        rclpy.shutdown()
-                        rclpy.init()
-                        self.ros_handler = MoveLinearActionClient()
             except:
                 print('[Error]  MoveLinear.')
             time.sleep(self.interval/2)

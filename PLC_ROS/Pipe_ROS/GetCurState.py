@@ -3,7 +3,7 @@ import time
 import rclpy
 from rclpy.node import Node
 
-from SysManager.msg import Sysstate
+from sysmanager.msg import Sysstate
 
 
 class GetCurStateClient(Node):

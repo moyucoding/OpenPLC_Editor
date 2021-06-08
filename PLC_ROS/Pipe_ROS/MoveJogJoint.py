@@ -38,7 +38,7 @@ class MoveJogJointHandler():
         #Create a goal
         goal = MotionJogJoint.Goal()
         goal.id = 1
-        goal.index = int(msg[0])
+        goal.index = int(msg[0]) - 1
 
         load = [float(x) for x in msg[1].split(',')[:]]
         goal.load = [0.0] * 10

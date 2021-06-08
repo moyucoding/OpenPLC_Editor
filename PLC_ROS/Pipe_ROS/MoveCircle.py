@@ -32,6 +32,7 @@ class MoveCircleActionClient(Node):
         result = future.result().result
         self.get_logger().info('Result: {0}'.format(result.ret))
         self._ret = int(result.ret)
+        rclpy.shutdown()
 
 
 class MoveCircleHandler():
@@ -40,12 +41,30 @@ class MoveCircleHandler():
         self.pipe_path = path
         self.interval = interval
         self.result = ' '
-        self.ros_handler = MoveCircleActionClient()
+        
+        self.goal = MotionMoveCircle.Goal()
         try:
             os.mkfifo(self.pipe_path)
         except OSError:
             print('[Error]  MoveCircle: Making Pipe: ',self.pipe_path,'.')
     
+    def requestHandler(self):
+        ros_ret = 0
+        while ros_ret == 0:
+            try:
+                rclpy.init()
+            except:
+                a = 1
+            self.ros_handler = MoveCircleActionClient()
+            self.ros_handler.send_goal(self.goal)
+            rclpy.spin(self.ros_handler)
+            ros_ret = self.ros_handler._ret
+            print('[Get]  MoveCircle result.')
+        if ros_ret:
+            self.result = 'y' + ' '*399
+        else:
+            self.result = 'n1'+' '*398
+
     def runHandler(self):
         fd = os.open(self.pipe_path, os.O_CREAT | os.O_RDWR)
         while True:
@@ -83,25 +102,13 @@ class MoveCircleHandler():
                         goal.speed = float(msg[5])
                         goal.zone = float(msg[6])
                         
-                        self.ros_handler.send_goal(goal)
-                        rclpy.spin_once(self.ros_handler)
-                        
-                        print('[Get]  MoveCircle result.')
-                        
-                        if self.ros_handler._ret:
-                            self.result = 'y' + ' '*399
-                        else:
-                            self.result = 'n1'+' '*398
+                        self.requestHandler()
+
                         os.write(fd,self.result.encode('utf-8'))
                         print('[Sent]  MoveCircle result.')
                         time.sleep(self.interval)
                     except:
-                        self.result = 'n1'+' '*398
-                        os.write(fd,self.encode('utf-8'))
                         time.sleep(self.interval)
-                        rclpy.shutdown()
-                        rclpy.init()
-                        self.ros_handler = MoveCircleActionClient()
             except:
                 print('[Error]  MoveCircle.')
             time.sleep(self.interval/2)

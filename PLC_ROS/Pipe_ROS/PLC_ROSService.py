@@ -3,6 +3,7 @@ import threading
 import rclpy
 import MotionGo
 import GetCurJoint
+import GetCurState
 import MoveAbsJoint
 import MoveJoint
 import MoveLinear
@@ -26,6 +27,11 @@ def main(interval):
     handler_GetCurJoint = GetCurJoint.GetCurJointHandler(GetCurJoint_Pipepath, interval)
     thread_GetCurJoint = threading.Thread(target = handler_GetCurJoint.runHandler)
     thread_GetCurJoint.start()
+    
+    GetCurState_Pipepath = '/tmp/GetCurState.pipe'
+    handler_GetCurState = GetCurState.GetCurStateHandler(GetCurState_Pipepath, interval)
+    thread_GetCurState = threading.Thread(target = handler_GetCurState.runHandler)
+    thread_GetCurState.start()
 
     MoveAbsJoint_Pipepath = '/tmp/MoveAbsJoint.pipe'
     handler_MoveAbsJoint = MoveAbsJoint.MoveAbsJointHandler(MoveAbsJoint_Pipepath, interval)
