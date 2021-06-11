@@ -251,11 +251,15 @@ FUNCTION_BLOCK MOVEABSJOINT
           SetFbVar(ERROR, true);
           //1-digit error id
           SetFbVar(ERRORCODE, buf[1] - 48);
+                 SetFbVar(WAIT, 3);
         }
         else if(buf[0] == 'y'){
           SetFbVar(VALID, true);
+          SetFbVar(WAIT, 3);
         }
-        SetFbVar(WAIT, 3);
+        else{
+          write(fd, buf, 400);
+        }
       }
     }
     else if((wait == 3) && !enable){
@@ -333,11 +337,16 @@ FUNCTION_BLOCK MOVEJOINT
           SetFbVar(ERROR, true);
           //1-digit error id
           SetFbVar(ERRORCODE, buf[1] - 48);
+          SetFbVar(WAIT, 3);
         }
         else if(buf[0] == 'y'){
           SetFbVar(VALID, true);
+          SetFbVar(WAIT, 3);
         }
-        SetFbVar(WAIT, 3);
+        else{
+          write(fd, buf, 400);
+        }
+        
       }
     }
     else if((wait == 3) && !enable){
@@ -415,11 +424,15 @@ FUNCTION_BLOCK MOVELINEAR
           SetFbVar(ERROR, true);
           //1-digit error id
           SetFbVar(ERRORCODE, buf[1] - 48);
+          SetFbVar(WAIT, 3);
         }
         else if(buf[0] == 'y'){
           SetFbVar(VALID, true);
+          SetFbVar(WAIT, 3);
         }
-        SetFbVar(WAIT, 3);
+        else{
+          write(fd, buf, 400);
+        }
       }
     }
     else if((wait == 3) && !enable){
@@ -507,11 +520,15 @@ FUNCTION_BLOCK MOVECIRCLE
           SetFbVar(ERROR, true);
           //1-digit error id
           SetFbVar(ERRORCODE, buf[1] - 48);
+          SetFbVar(WAIT, 3);
         }
         else if(buf[0] == 'y'){
           SetFbVar(VALID, true);
+          SetFbVar(WAIT, 3);
         }
-        SetFbVar(WAIT, 3);
+        else{
+          write(fd, buf, 400);
+        }
       }
     }
     else if((wait == 3) && !enable){
