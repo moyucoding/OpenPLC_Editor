@@ -60,6 +60,7 @@ class MoveAbsJointHandler():
                 except:
                     a=1
 
+
     def run(self):
         fd = os.open(self.pipe_path, os.O_CREAT | os.O_RDWR)
         thread_node = threading.Thread(target=self.rosHandler)
@@ -114,12 +115,12 @@ class MoveAbsJointHandler():
                         elif self.result == 0:
                             time1 = time.time()
                             print('[Info]  MoveAbsJoint resends request from ROS.')
-                            while self.node._ret == 0:
-                                time.sleep(self.interval)
+                            while self.node._ret <= 0:
+                                time.sleep(self.interval/2)
                                 self.node.send_goal(goal)
                                 self.count += 1
                                 while self.count != self.node._count:
-                                    time.sleep(self.interval/2)
+                                    time.sleep(self.interval)
                             time2 = time.time()
                             print('[Info]  Node resend time',time2-time1)
                             self.result = self.node._ret
@@ -128,10 +129,14 @@ class MoveAbsJointHandler():
                             self.pipe_result = 'n1'+' '*398
 
                         os.write(fd,self.pipe_result.encode('utf-8'))
-                        print('[Info]  MoveAbsJoint sends result to Pipe.')
-                        time.sleep(self.interval)
+                        print('[Info]  MoveAbsJoint sends result to Pipe.',self.result)
+                        
                     except:
-                        time.sleep(self.interval)
+                        time.sleep(self.interval/2)
+                elif data.decode('utf-8')[0] == 'y' or data.decode('utf-8')[0] == 'n':
+                    print('[Info]  MoveAbsJoint resends result to Pipe.')
+                    os.write(fd,data)
+                    time.sleep(self.interval)
             except:
                 print('[Error] MoveAbsJoint.')
             time.sleep(self.interval/2)

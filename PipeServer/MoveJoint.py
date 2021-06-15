@@ -113,24 +113,29 @@ class MoveJointHandler():
                         elif self.result == 0:
                             time1 = time.time()
                             print('[Info]  MoveJoint resends request from ROS.')
-                            while self.node._ret == 0:
-                                time.sleep(self.interval)
+                            while self.node._ret <= 0:
+                                time.sleep(self.interval/2)
                                 self.node.send_goal(goal)
                                 self.count += 1
                                 while self.count != self.node._count:
-                                    time.sleep(self.interval/2)
+                                    time.sleep(self.interval)
                             time2 = time.time()
                             print('[Info]  Node resend time',time2-time1)
                             self.result = self.node._ret
                             self.pipe_result = 'y' + ' '*399
                         else:
                             self.pipe_result = 'n1'+' '*398
-                        os.write(fd,self.pipe_result.encode('utf-8'))
-                        print('[Info]  MoveJoint sends result to Pipe.')
-                        time.sleep(self.interval)
-                    except:
-                        time.sleep(self.interval)
                         
+                        os.write(fd,self.pipe_result.encode('utf-8'))
+                        print('[Info]  MoveJoint sends result to Pipe.',self.result)
+                        
+                    except:
+                        time.sleep(self.interval/2)
+
+                elif data.decode('utf-8')[0] == 'y' or data.decode('utf-8')[0] == 'n':
+                    print('[Info]  MoveJoint resends result to Pipe.')
+                    os.write(fd,data)
+                    time.sleep(self.interval)
             except:
                 print('[Error]  MoveJoint.')
             time.sleep(self.interval/2)
