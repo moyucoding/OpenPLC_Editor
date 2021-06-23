@@ -12,7 +12,7 @@ import MoveJogLinear
 import MoveJogRotation
 import MoveJoint
 import MoveLinear
-#import RobotEnable
+import RobotEnable
 
 class ServiceHandler():
     def __init__(self):
@@ -73,11 +73,11 @@ class ServiceHandler():
         thread_MoveLinear = threading.Thread(target=handler_MoveLinear.run)
         thread_MoveLinear.start()
 
-        #handler_RobotEnable = RobotEnable.RobotEnableHandler(self.RobotEnable_Pipepath, self.interval)
-        #thread_RobotEnable = threading.Thread(target=handler_RobotEnable.run)
-        #thread_RobotEnable.start()
+        handler_RobotEnable = RobotEnable.RobotEnableHandler(self.RobotEnable_Pipepath, self.interval)
+        thread_RobotEnable = threading.Thread(target=handler_RobotEnable.run)
+        thread_RobotEnable.start()
 if __name__ == '__main__':
-    plc_interval = 0.02
+    plc_interval = 0.015
     try:
         rclpy.init()
         pipe_server = ServiceHandler()

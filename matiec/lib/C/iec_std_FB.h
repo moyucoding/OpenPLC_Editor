@@ -564,6 +564,8 @@ typedef struct {
   __DECLARE_VAR(BOOL,ENABLE)
   __DECLARE_VAR(SINT,STATE)
   __DECLARE_VAR(BOOL,VALID)
+  // FB private variables - TEMP, private and located variables
+  __DECLARE_VAR(SINT,WAIT)
 } ROBOTENABLE;
 // FUNCTION_BLOCK MOTIONGO
 // Data part
@@ -573,6 +575,8 @@ typedef struct {
   __DECLARE_VAR(BOOL,ENO)
   __DECLARE_VAR(BOOL,ENABLE)
   __DECLARE_VAR(BOOL,VALID)
+  // FB private variables - TEMP, private and located variables
+  __DECLARE_VAR(SINT,WAIT)
 } MOTIONGO;
 // FUNCTION_BLOCK GETCURJOINT
 // Data part
@@ -2124,41 +2128,50 @@ static void ROBOTENABLE_init__(ROBOTENABLE *data__, BOOL retain) {
   __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->STATE,0,retain)
   __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->WAIT,0,retain)  
 }
 // Code part
 static void ROBOTENABLE_body__(ROBOTENABLE *data__) {
   
 
-  // Control execution
-  if (!__GET_VAR(data__->EN)) {
-    __SET_VAR(data__->,ENO,,__BOOL_LITERAL(FALSE));
-    return;
-  }
-  else {
-    __SET_VAR(data__->,ENO,,__BOOL_LITERAL(TRUE));
-  }
-  
-  // Code
+  int wait = GetFbVar(WAIT);
   bool enable = GetFbVar(ENABLE);
   int state = GetFbVar(STATE);
   SetFbVar(VALID, false);
   int fd = open("/tmp/RobotEnable.pipe",O_RDWR | O_NONBLOCK);
-  if(enable && state < 2){
-    if(fd > 0){
+  if(wait==0 && enable){
+    SetFbVar(WAIT, 1);
+  }
+  else if (wait == 1){
+    if(state < 2){
       char buf[20] = {"RobotEnable;1;"};
-      write(fd, buf, 20);
+      int ret = write(fd, buf, 20);
+      if(ret > 0){
+        SetFbVar(WAIT,2);
+      }
     }
-  }
-  else if(!enable && state >= 2){
-    if(fd > 0){
+    else{
       char buf[20] = {"RobotEnable;0;"};
+      int ret = write(fd, buf, 20);
+      if(ret > 0){
+        SetFbVar(WAIT, 2);
+      }
+    }
+  }
+  else if(wait == 2){
+    char buf[20];
+    int ret = read(fd, buf, 20);
+    if (ret > 0 && buf[0] == 'y'){
+      SetFbVar(VALID,true);
+      SetFbVar(WAIT, 3);
+    }
+    else{
       write(fd, buf, 20);
     }
   }
-  char buf[20];
-  int ret = read(fd, buf, 20);
-  if (ret > 0 && buf[0] == 'y'){
-    SetFbVar(VALID,true);
+  else if((wait == 3) && !enable){
+    SetFbVar(VALID, false);
+    SetFbVar(WAIT, 0);      
   }
   close(fd);
 
@@ -2173,37 +2186,45 @@ static void MOTIONGO_init__(MOTIONGO *data__, BOOL retain) {
   __INIT_VAR(data__->ENO,__BOOL_LITERAL(TRUE),retain)
   __INIT_VAR(data__->ENABLE,__BOOL_LITERAL(FALSE),retain)
   __INIT_VAR(data__->VALID,__BOOL_LITERAL(FALSE),retain)
+  __INIT_VAR(data__->WAIT,0,retain)
 }
 // Code part
 static void MOTIONGO_body__(MOTIONGO *data__) {
   
   
   
-  // Control execution
-  if (!__GET_VAR(data__->EN)) {
-    __SET_VAR(data__->,ENO,,__BOOL_LITERAL(FALSE));
-    return;
-  }
-  else {
-    __SET_VAR(data__->,ENO,,__BOOL_LITERAL(TRUE));
-  }
-  
-  // Code
+  int wait = GetFbVar(WAIT);
   bool enable = GetFbVar(ENABLE);
   SetFbVar(VALID, false);
   int fd = open("/tmp/MotionGo.pipe",O_RDWR | O_NONBLOCK);
-  if(enable){
+  if(wait==0 && enable){
+      SetFbVar(WAIT, 1);
+  }
+  else if (wait == 1){
     if(fd > 0){
       char buf[10] = {"MotionGo;"};
+      int ret = write(fd, buf, 10);
+      if(ret > 0){
+        SetFbVar(WAIT, 2);
+      }
+    }
+  }
+  else if(wait == 2){
+    char buf[10];
+    int ret = read(fd, buf, 10);
+    if (ret>0 && buf[0] == 'y'){
+      SetFbVar(VALID,true);
+      SetFbVar(WAIT, 3);
+    }
+    else{
       write(fd, buf, 10);
     }
   }
-  
-  char buf[10];
-  int ret = read(fd, buf, 10);
-  if (buf[0] == 'y'){
-    SetFbVar(VALID,true);
+  else if((wait == 3) && !enable){
+    SetFbVar(VALID, false);
+    SetFbVar(WAIT, 0);      
   }
+  
   close(fd);
   goto __end;
 __end:

@@ -17,28 +17,49 @@ FUNCTION_BLOCK ROBOTENABLE
   VAR_OUTPUT
     VALID : BOOL := False;
   END_VAR
+  VAR
+    WAIT : SINT := 0;
+  END_VAR
 
   {{
+    int wait = GetFbVar(WAIT);
     bool enable = GetFbVar(ENABLE);
     int state = GetFbVar(STATE);
     SetFbVar(VALID, false);
     int fd = open("/tmp/RobotEnable.pipe",O_RDWR | O_NONBLOCK);
-    if(enable && state < 2){
-      if(fd > 0){
+    if(wait==0 && enable){
+      SetFbVar(WAIT, 1);
+    }
+    else if (wait == 1){
+      if(state < 2){
         char buf[20] = {"RobotEnable;1;"};
-        write(fd, buf, 20);
+        int ret = write(fd, buf, 20);
+        if(ret > 0){
+          SetFbVar(WAIT,2);
+        }
       }
-    }
-    else if(!enable && state >= 2){
-      if(fd > 0){
+      else{
         char buf[20] = {"RobotEnable;0;"};
+        int ret = write(fd, buf, 20);
+        if(ret > 0){
+          SetFbVar(WAIT, 2);
+        }
+      }
+    }
+    else if(wait == 2){
+      char buf[20];
+      int ret = read(fd, buf, 20);
+      if (ret > 0 && buf[0] == 'y'){
+        SetFbVar(VALID,true);
+        SetFbVar(WAIT, 3);
+      }
+      else{
         write(fd, buf, 20);
       }
     }
-    char buf[20];
-    int ret = read(fd, buf, 20);
-    if (ret > 0 && buf[0] == 'y'){
-      SetFbVar(VALID,true);
+    else if((wait == 3) && !enable){
+      SetFbVar(VALID, false);
+      SetFbVar(WAIT, 0);      
     }
     close(fd);
   }}
@@ -51,23 +72,43 @@ FUNCTION_BLOCK MOTIONGO
   VAR_OUTPUT
     VALID : BOOL := False;
   END_VAR
+  VAR
+    WAIT : SINT := 0;
+  END_VAR
 
   {{
+    int wait = GetFbVar(WAIT);
     bool enable = GetFbVar(ENABLE);
     SetFbVar(VALID, false);
     int fd = open("/tmp/MotionGo.pipe",O_RDWR | O_NONBLOCK);
-    if(enable){
+    if(wait==0 && enable){
+        SetFbVar(WAIT, 1);
+    }
+    else if (wait == 1){
       if(fd > 0){
         char buf[10] = {"MotionGo;"};
+        int ret = write(fd, buf, 10);
+        if(ret > 0){
+          SetFbVar(WAIT, 2);
+        }
+      }
+    }
+    else if(wait == 2){
+      char buf[10];
+      int ret = read(fd, buf, 10);
+      if (ret>0 && buf[0] == 'y'){
+        SetFbVar(VALID,true);
+        SetFbVar(WAIT, 3);
+      }
+      else{
         write(fd, buf, 10);
       }
     }
-    
-    char buf[1];
-    int ret = read(fd, buf, 10);
-    if (buf[0] == 'y'){
-      SetFbVar(VALID,true);
+    else if((wait == 3) && !enable){
+      SetFbVar(VALID, false);
+      SetFbVar(WAIT, 0);      
     }
+    
     close(fd);
   }}
 END_FUNCTION_BLOCK

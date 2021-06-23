@@ -60,7 +60,6 @@ class MoveLinearHandler():
                 except:
                     a=1
 
-
     def run(self):
         fd = os.open(self.pipe_path, os.O_CREAT | os.O_RDWR)
         thread_node = threading.Thread(target=self.rosHandler)
@@ -100,7 +99,8 @@ class MoveLinearHandler():
                         print('[Info]  Goal:', goal.topoint)
                         print('[Info]  Node send time',time2-time1)
 
-                        while self.count != self.node._count:
+                        while self.count > self.node._count:
+                            #print(self.count,self.node._count)
                             time.sleep(self.interval/2)
                         self.result = self.node._ret
                         time1 = time.time()
@@ -115,19 +115,18 @@ class MoveLinearHandler():
                             print('[Info]  MoveLinear resends request to ROS.')
                             retry = 0
                             while self.node._ret <= 0:
-                                time.sleep(self.interval/2)
+                                time.sleep(self.interval*16)
                                 self.node.send_goal(goal)
                                 self.count += 1
                                 retry += 1
                                 while self.count != self.node._count:
-                                    time.sleep(self.interval)
+                                    time.sleep(self.interval/2)
                             time2 = time.time()
                             print('[Info]  Node resend times:',retry,'. Time spent:',time2-time1)
                             self.result = self.node._ret
                             self.pipe_result = 'y' + ' '*399
                         else:
                             self.pipe_result = 'n1'+' '*398
-
                             print('[Error]  MoveLinear gets error result.')
                         os.write(fd,self.pipe_result.encode('utf-8'))
                         print('[Info]  MoveLinear sends result to Pipe.',self.result)

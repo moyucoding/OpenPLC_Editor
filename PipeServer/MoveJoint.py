@@ -41,7 +41,7 @@ class MoveJointHandler():
         self.interval = interval
         self.result = ' '
         self.count = 0
-
+        self.move = 0
         self.executor = SingleThreadedExecutor()
         self.node = MoveJointClient()
         self.executor.add_node(self.node)
@@ -113,22 +113,25 @@ class MoveJointHandler():
                         elif self.result == 0:
                             time1 = time.time()
                             print('[Info]  MoveJoint resends request from ROS.')
+                            retry = 0
                             while self.node._ret <= 0:
-                                time.sleep(self.interval/2)
+                                time.sleep(self.interval*16)
                                 self.node.send_goal(goal)
                                 self.count += 1
+                                retry += 1
                                 while self.count != self.node._count:
-                                    time.sleep(self.interval)
+                                    time.sleep(self.interval/2)
                             time2 = time.time()
-                            print('[Info]  Node resend time',time2-time1)
+                            print('[Info]  Node resend times:',retry,'. Time spent:',time2-time1)
                             self.result = self.node._ret
                             self.pipe_result = 'y' + ' '*399
                         else:
-                            self.pipe_result = 'n1'+' '*398
-                        
+                            self.pipe_result = 'n1' + ' '*398
+                            print('[Error]  MoveJoint gets error result.')
                         os.write(fd,self.pipe_result.encode('utf-8'))
                         print('[Info]  MoveJoint sends result to Pipe.',self.result)
-                        
+                        self.move += 1
+                        print('[Info]  MoveJoint counter',self.move)
                     except:
                         time.sleep(self.interval/2)
 
